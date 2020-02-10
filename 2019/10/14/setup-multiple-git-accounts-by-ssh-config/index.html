@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>通过 ssh config 配置 Git 多账户 SSH 登录 | GraceHan Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="当我们使用 git 时，常用的授权通常有两种方式 HTTPS 和 SSH。当选用 HTTPS 时，每次代码的增删改查都需要输入一串密码进行身份验证，影响代码提交效率，因此大部分情况下我们会使用 SSH 免密登录。那么，在使用 SSH 免密登录过程中，你有遇到过什么问题吗？">
+<meta name="keywords" content="2019">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通过 ssh config 配置 Git 多账户 SSH 登录">
+<meta property="og:url" content="http://hanpanpan200.github.io/2019/10/14/setup-multiple-git-accounts-by-ssh-config/index.html">
+<meta property="og:site_name" content="GraceHan Blog">
+<meta property="og:description" content="当我们使用 git 时，常用的授权通常有两种方式 HTTPS 和 SSH。当选用 HTTPS 时，每次代码的增删改查都需要输入一串密码进行身份验证，影响代码提交效率，因此大部分情况下我们会使用 SSH 免密登录。那么，在使用 SSH 免密登录过程中，你有遇到过什么问题吗？">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://hanpanpan200.github.io/images/setup-multiple-git-accounts-by-ssh-config/ssh-working-model.png">
+<meta property="og:image" content="http://hanpanpan200.github.io/images/setup-multiple-git-accounts-by-ssh-config/error.png">
+<meta property="og:image" content="http://hanpanpan200.github.io/images/setup-multiple-git-accounts-by-ssh-config/git-config.png">
+<meta property="og:image" content="http://hanpanpan200.github.io/images/setup-multiple-git-accounts-by-ssh-config/clone-command.png">
+<meta property="og:updated_time" content="2020-02-10T14:53:17.239Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="通过 ssh config 配置 Git 多账户 SSH 登录">
+<meta name="twitter:description" content="当我们使用 git 时，常用的授权通常有两种方式 HTTPS 和 SSH。当选用 HTTPS 时，每次代码的增删改查都需要输入一串密码进行身份验证，影响代码提交效率，因此大部分情况下我们会使用 SSH 免密登录。那么，在使用 SSH 免密登录过程中，你有遇到过什么问题吗？">
+<meta name="twitter:image" content="http://hanpanpan200.github.io/images/setup-multiple-git-accounts-by-ssh-config/ssh-working-model.png">
+  
+    <link rel="alternative" href="/atom.xml" title="GraceHan Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Grace Han</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">一花一世界, 一叶一菩提</p>
+		
+
+		<div align="center" style="margin-top: 23px;">
+			<a href="http://www.blogcounter4free.com" target="_blank">
+				<img src="http://www.blogcounter4free.com/counter.php?page=hanpanpan200.github.io/&digits=36&unique=0" alt="blog counter" border="0;">
+			</a>
+		</div>
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>主菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/hanpanpan200" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/0513penny" title="weibo">weibo</a>
+					        
+								<a class="linkedin" target="_blank" href="https://www.linkedin.com/in/grace-han-aa9397114" title="linkedin">linkedin</a>
+					        
+						</div>
+					</nav>
+				</section>
+
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/2016/" style="font-size: 10px;">2016</a> <a href="/tags/2019/" style="font-size: 10px;">2019</a> <a href="/tags/Dependency/" style="font-size: 10px;">Dependency</a> <a href="/tags/Native-Module-For-React-Native/" style="font-size: 10px;">Native Module For React Native</a> <a href="/tags/NavigatorIOS/" style="font-size: 10px;">NavigatorIOS</a> <a href="/tags/OptionalType/" style="font-size: 10px;">OptionalType</a> <a href="/tags/PushNotification/" style="font-size: 20px;">PushNotification</a> <a href="/tags/Redux/" style="font-size: 10px;">Redux</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/Setup/" style="font-size: 10px;">Setup</a> <a href="/tags/Share/" style="font-size: 10px;">Share</a>
+					</div>
+				</section>
+				
+
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.penghongwei.cc/">MaxPeng</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://bangwu.github.io/">BangWu</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">我就是我，是颜色不一样的吃货…</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Grace Han</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+			
+				<img lazy-src="/avatar.jpg" class="js-avatar">
+			
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Grace Han</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">一花一世界, 一叶一菩提</p>
+			
+			
+			<div align="center" style="margin-top: 23px;">
+				<a href="http://www.blogcounter4free.com" target="_blank">
+					<img src="http://www.blogcounter4free.com/counter.php?page=hanpanpan200.github.io/&digits=36&unique=0" alt="blog counter" border="0;">
+				</a>
+			</div>
+
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/hanpanpan200" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/0513penny" title="weibo">weibo</a>
+			        
+						<a class="linkedin" target="_blank" href="https://www.linkedin.com/in/grace-han-aa9397114" title="linkedin">linkedin</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-setup-multiple-git-accounts-by-ssh-config" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/10/14/setup-multiple-git-accounts-by-ssh-config/" class="article-date">
+  	<time datetime="2019-10-14T08:22:46.000Z" itemprop="datePublished">2019-10-14</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      通过 ssh config 配置 Git 多账户 SSH 登录
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/Git/">Git</a>
+	</div>
+
+
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/2019/">2019</a></li></ul>
+	</div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>当我们使用 git 时，常用的授权通常有两种方式 HTTPS 和 SSH。当选用 HTTPS 时，每次代码的增删改查都需要输入一串密码进行身份验证，影响代码提交效率，因此大部分情况下我们会使用 SSH 免密登录。那么，在使用 SSH 免密登录过程中，你有遇到过什么问题吗？</p>
+<a id="more"></a>
+<h2 id="SSH-工作原理"><a href="#SSH-工作原理" class="headerlink" title="SSH 工作原理"></a>SSH 工作原理</h2><blockquote>
+<p>SSH(Secure Shell) 是一种加密的网络传输协议，可以在不安全的网络中为网络服务提供安全的传输环境。SSH 以非对称加密实现身份验证，通过C/S(client-server)模式来实现。</p>
+</blockquote>
+<p>具体交互见下图：</p>
+<p><img src="/images/setup-multiple-git-accounts-by-ssh-config/ssh-working-model.png" alt="Working Model" width="60%" height="400px"></p>
+<p>在我们上传代码到 github 服务器的过程中，github server 就会作为 SSH server 来接受客户端的请求，并返回 public key（即公钥） 给客户端。而客户端将会进行 public key 和 private key（即私钥）的匹配校验，最终建立连接。</p>
+<p>在明白了 SSH 的原理之后，你可能会有点疑惑，这个公钥和私钥是怎么来的呢？下面我们就来解答这些疑问。</p>
+<h2 id="基本的-Github-SSH-配置"><a href="#基本的-Github-SSH-配置" class="headerlink" title="基本的 Github SSH 配置"></a>基本的 Github SSH 配置</h2><p>Git SSH 的 公钥和私钥都是在客户端手动生成的。一般我们会将私钥保存在客户端，公钥配置在服务端。此处以 github 为例，我们一起来进行 SSH 的配置。</p>
+<h3 id="配置-SSH-秘钥"><a href="#配置-SSH-秘钥" class="headerlink" title="配置 SSH 秘钥"></a>配置 SSH 秘钥</h3><ul>
+<li>根据 <a href="https://help.github.com/en/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#adding-your-ssh-key-to-the-ssh-agent" target="_blank" rel="noopener">github 文档</a>，在客户端创建SSH公钥和私钥对，并将私钥添加到客户端的 ssh-agent 中。</li>
+<li><p><a href="https://help.github.com/en/articles/adding-a-new-ssh-key-to-your-github-account" target="_blank" rel="noopener">将公钥配置在 github 的相应账户中</a></p>
+</li>
+<li><p>测试配置是否成功</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+<p>如果看到如下结果，则证明配置成功，否则需要根据错误消息进行修改。</p>
+<blockquote>
+<p>Hi yourusername! You’ve successfully authenticated, but GitHub does not provide shell access</p>
+</blockquote>
+<h2 id="配置多个-github-账户的-SSH"><a href="#配置多个-github-账户的-SSH" class="headerlink" title="配置多个 github 账户的 SSH"></a>配置多个 github 账户的 SSH</h2><p>在完成了如上的配置之后，你愉快的用起来了 SSH ，代码提交效率大幅提高了，git pull , git push 的时候再也不需要输入密码了。你对当前的效果甚是满意。</p>
+<p>然而过了不久，你切换到了另一个项目/公司，公司给你分配了一个企业邮箱，需要你在工作时使用这个企业邮箱进行代码提交，于是你用公司邮箱创建了另外一个 Github 账户。但是你的 SSH 配置怎么办？于是你想了一下，哦，对，我就把原来的公钥再配置到这个 github 账户里吧！于是你尝试着将本地的 id_rsa.pub 文件中的内容拷贝到公司 github 账户的 SSH settings 里，当你尝试保存的时候得到一个错误消息:</p>
+<p><img src="/images/setup-multiple-git-accounts-by-ssh-config/error.png" alt="Working Model" width="60%" height="400px"></p>
+<p>从原来的个人 github 账户中删除 SSH 配置，然后将 SSH 配置到公司 github 账户中？你觉得不行，你时不时还需要往自己的个人 github 账户中提交代码呢，总不能每次提交都把 SSH 配置挪来挪去吧！</p>
+<p>哦，你想起来，SSH 还提供了一个 SSH Config，可以在这个 config 中定义不同的 host，可以在创建多对公钥和私钥，可以把不同的公钥配置在不同的 github 账户里，然后通过脚本去连接到不同的host，完成不同 git 账户的身份验证。</p>
+<h3 id="配置多个账户的私钥和公钥对，用客户端的-ssh-agent-进行-key-的切换"><a href="#配置多个账户的私钥和公钥对，用客户端的-ssh-agent-进行-key-的切换" class="headerlink" title="配置多个账户的私钥和公钥对，用客户端的 ssh-agent 进行 key 的切换"></a>配置多个账户的私钥和公钥对，用客户端的 ssh-agent 进行 key 的切换</h3><p>本例中，你的个人 github 账户用户名为 personal， 公司 github 账户用户名为 company。</p>
+<h4 id="1-配置多对私钥和公钥"><a href="#1-配置多对私钥和公钥" class="headerlink" title="1. 配置多对私钥和公钥"></a>1. 配置多对私钥和公钥</h4><p>重复 <a href>配置 SSH</a> 中的步骤，分别为个人和公司的 github 账户创建对应的私钥和公钥，此时执行  <code>ls ~/.ssh</code> 将会看到如下结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">id_rsa_github_personal</span><br><span class="line">id_rsa_github_personal.pub</span><br><span class="line">id_rsa_github_company</span><br><span class="line">id_rsa_github_company.pub</span><br></pre></td></tr></table></figure>
+<p>将 <code>id_rsa_github_personal.pub</code> 和 <code>id_rsa_github_company.pub</code> 分别添加到个人和公司 github 账户的 SSH 配置中。</p>
+<h5 id="2-访问不同-github-账户的-repo-时，手动重置-SSH-客户端的默认私钥"><a href="#2-访问不同-github-账户的-repo-时，手动重置-SSH-客户端的默认私钥" class="headerlink" title="2. 访问不同 github 账户的 repo 时，手动重置 SSH 客户端的默认私钥"></a>2. 访问不同 github 账户的 repo 时，手动重置 SSH 客户端的默认私钥</h5><p>当访问公司 github 账户对应的 repo 时，执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh-add -D</span><br><span class="line">ssh-add ~/.ssh/id_rsa_github_company</span><br></pre></td></tr></table></figure>
+<p>当访问个人 github 账户对应的 repo 时，执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh-add -D</span><br><span class="line">ssh-add ~/.ssh/id_rsa_github_personal</span><br></pre></td></tr></table></figure>
+<p>这样，你通过这种半自动化的方式配置好了两个 github 账户的 SSH，在实际使用过程中，勉强够用，但是你经常忘记切换，常常是在拉代码收到错误提示之后，才想起来要手动做这个切换，这确实有点痛苦。你在想，如果拉代码时，SSH 可以自动匹配私钥和公钥该多好？</p>
+<h3 id="让-SSH-自动识别应该用哪个私钥和公钥进行匹配"><a href="#让-SSH-自动识别应该用哪个私钥和公钥进行匹配" class="headerlink" title="让 SSH 自动识别应该用哪个私钥和公钥进行匹配"></a>让 SSH 自动识别应该用哪个私钥和公钥进行匹配</h3><p>本例中，个人 github 仓库的 ssh 地址为：</p>
+<blockquote>
+<p><a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>:personal-username/repo1.git</p>
+</blockquote>
+<p>公司 github 仓库的ssh 地址为：</p>
+<blockquote>
+<p><a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>:company-username/repo2.git</p>
+</blockquote>
+<p>在以上的 ssh-url 中，<strong>github.com</strong> 是 ssh server 的 host name。当连接这个 ssh url 时，客户端的 ssh-agent 会在本地的 ssh config 中寻找相应的配置。接下来，我们来查看本地的ssh config。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat ~/.ssh/config</span><br></pre></td></tr></table></figure>
+<p>默认配置为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Host *</span><br><span class="line">  AddKeysToAgent yes</span><br><span class="line">  UseKeychain yes</span><br><span class="line">  IdentityFile ~/.ssh/id_rsa</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Host：标识一个配置区间，此处 <code>*</code> 意为匹配所有的 host</li>
+<li>IdentityFile: 指定秘钥认证使用的私钥文件路径，此处默认为 <code>~/.ssh/id_rsa</code></li>
+</ul>
+<p>我们可以为不同 github 账户来配置多个 host，分别指向其对应的私钥。</p>
+<h4 id="1-创建-id-rsa-github-personal-的私钥和公钥"><a href="#1-创建-id-rsa-github-personal-的私钥和公钥" class="headerlink" title="1. 创建 id_rsa_github_personal 的私钥和公钥"></a>1. 创建 id_rsa_github_personal 的私钥和公钥</h4><h4 id="2-创建-id-rsa-github-company-的私钥和公钥"><a href="#2-创建-id-rsa-github-company-的私钥和公钥" class="headerlink" title="2. 创建 id_rsa_github_company 的私钥和公钥"></a>2. 创建 id_rsa_github_company 的私钥和公钥</h4><h4 id="3-将私钥添加到-ssh-agent-并保存在-keychain-中"><a href="#3-将私钥添加到-ssh-agent-并保存在-keychain-中" class="headerlink" title="3. 将私钥添加到 ssh-agent 并保存在 keychain 中"></a>3. 将私钥添加到 ssh-agent 并保存在 keychain 中</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh-add -K ~/.ssh/id_rsa_github_personal</span><br><span class="line">ssh-add -K ~/.ssh/id_rsa_github_company</span><br></pre></td></tr></table></figure>
+<h4 id="4-更新-ssh-config"><a href="#4-更新-ssh-config" class="headerlink" title="4. 更新 ssh config"></a>4. 更新 ssh config</h4><p>将 config 修改为:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Host personal-username.github.com</span><br><span class="line">  HostName github.com</span><br><span class="line">  AddKeysToAgent yes</span><br><span class="line">  UseKeychain yes</span><br><span class="line">  IdentityFile ~/.ssh/id_rsa_github_personal</span><br><span class="line">Host company-username.github.com</span><br><span class="line">  HostName github.com</span><br><span class="line">  AddKeysToAgent yes</span><br><span class="line">  UseKeychain yes</span><br><span class="line">  IdentityFile ~/.ssh/id_rsa_github_company</span><br></pre></td></tr></table></figure>
+<h4 id="5-拉代码时配置对应的-host"><a href="#5-拉代码时配置对应的-host" class="headerlink" title="5. 拉代码时配置对应的 host"></a>5. 拉代码时配置对应的 host</h4><p>github 默认的 ssh host 名字为 <strong>github.com</strong> ，我们已经在上述的配置中，根据不同的 github 账户，将 <strong>github.com</strong> 这个 host 区分为了 <strong>personal-username.github.com</strong> 和 <strong>company-username.github.com</strong>， 因此，当我们在访问对应仓库时，对应的 ssh host 应当作出对应的修改。</p>
+<p>当使用个人 github 账户的 SSH 认证访问仓库： <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>:personal-username/ssh-config-demo.git</p>
+<ul>
+<li>如果 repo 已经 clone 到本地，则需要修改 <code>./git/config</code> 中的 <code>remote origin</code> 配置。具体的 diff 如下：</li>
+</ul>
+<p><img src="/images/setup-multiple-git-accounts-by-ssh-config/git-config.png" alt="Git Config" width="60%" height="400px"></p>
+<ul>
+<li>如果 repo 未 clone 到本地，则需要修改 clone 命令：</li>
+</ul>
+<p><img src="/images/setup-multiple-git-accounts-by-ssh-config/clone-command.png" alt="Clone Command" width="60%" height="400px"></p>
+<p>按照如上进行配置之后，只需要在 clone 代码处注意一下 ssh host 的处理，便可以后顾无忧了！你可以放心的在各个 github 账户间切换自如。</p>
+<h2 id="再添加一个-bitbucket-账户的-SSH-配置"><a href="#再添加一个-bitbucket-账户的-SSH-配置" class="headerlink" title="再添加一个 bitbucket 账户的 SSH 配置"></a>再添加一个 bitbucket 账户的 SSH 配置</h2><p>又有那么一天，你又需要 <a href="https://bitbucket.org" target="_blank" rel="noopener">bitbucket</a> 了，可能是某个项目需要，也有可能是你的私有仓库需要大于3个的 collaborator，但是无论如何，你的确是，又需要配置 bitbucket 的 SSH 了。不过，你现在已经可以如法炮制了！</p>
+<ul>
+<li>为 bitbucket 账户创建一个秘钥对 <code>id_rsa_bitbucket_personal</code> 和 <code>id_rsa_bitbucket_personal.pub</code></li>
+<li>将公钥 <code>id_rsa_bitbucket_personal.pub</code> 添加到 bitbucket 的账户设置中</li>
+<li>修改 ssh config，新增一个 host</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Host personal-username.github.com</span><br><span class="line">  HostName github.com</span><br><span class="line">  AddKeysToAgent yes</span><br><span class="line">  UseKeychain yes</span><br><span class="line">  IdentityFile ~/.ssh/id_rsa_github_personal</span><br><span class="line">Host company-username.github.com</span><br><span class="line">  HostName github.com</span><br><span class="line">  AddKeysToAgent yes</span><br><span class="line">  UseKeychain yes</span><br><span class="line">  IdentityFile ~/.ssh/id_rsa_github_company</span><br><span class="line">Host personal-username.bitbucket.org</span><br><span class="line">  HostName bitbucket.org</span><br><span class="line">  AddKeysToAgent yes</span><br><span class="line">  UseKeychain yes</span><br><span class="line">  IdentityFile ~/.ssh/id_rsa_bitbucket_personal</span><br></pre></td></tr></table></figure>
+<ul>
+<li>clone repo 时，修改 bitbucket 默认的 host，比如，从  </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone git@bitbucket.org:personal-username/demo.git</span><br></pre></td></tr></table></figure>
+<p>修改为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone git@personal-username.bitbucket.org:personal-username/demo.git</span><br></pre></td></tr></table></figure>
+<ul>
+<li>测试是否配置成功</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@bitbucket.org</span><br></pre></td></tr></table></figure>
+<h2 id="码云的-SSH-？gitlab-的-SSH-？"><a href="#码云的-SSH-？gitlab-的-SSH-？" class="headerlink" title="码云的 SSH ？gitlab 的 SSH ？"></a>码云的 SSH ？gitlab 的 SSH ？</h2><p>剩下的就不用我多说什么啦，所有基于 git 的代码托管平台都可以以此类推了！</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/02/28/set-env-via-xcconfig-and-scheme/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">用 Xcode Configuration 和 Scheme 配置项目环境</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+<div class="share_addthis">
+  <div class="sharing addthis_toolbox share">
+    <a class="addthis_button_facebook_like"></a>
+    <a class="addthis_button_tweet"></a>
+    <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-560c64c35486b3d4" async="async"></script>
+</div>
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="setup-multiple-git-accounts-by-ssh-config" data-title="通过 ssh config 配置 Git 多账户 SSH 登录" data-url="http://hanpanpan200.github.io/2019/10/14/setup-multiple-git-accounts-by-ssh-config/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"Grace"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2020 Grace Han
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Dispatch in Depth | GraceHan Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Redux 是 JavaScript 状态容器，提供可预测化的状态管理。它支持 React、Angular、Ember、jQuery 甚至纯 JavaScript。 知识准备阅读本文时，你需要提前了解一下以下内容：  redux react-redux redux-thunk  这三个库中都提供了 dispatch 方法。本文以这三种不同的 dispatch 为突破口来了解 redux， rea">
+<meta name="keywords" content="Redux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dispatch in Depth">
+<meta property="og:url" content="http://hanpanpan200.github.io/2017/06/08/dispatch-in-depth/index.html">
+<meta property="og:site_name" content="GraceHan Blog">
+<meta property="og:description" content="Redux 是 JavaScript 状态容器，提供可预测化的状态管理。它支持 React、Angular、Ember、jQuery 甚至纯 JavaScript。 知识准备阅读本文时，你需要提前了解一下以下内容：  redux react-redux redux-thunk  这三个库中都提供了 dispatch 方法。本文以这三种不同的 dispatch 为突破口来了解 redux， rea">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://hanpanpan200.github.io/images/redux-dispatch/landing.jpeg">
+<meta property="og:image" content="http://hanpanpan200.github.io/images/redux-dispatch/debug.png">
+<meta property="og:updated_time" content="2020-02-10T14:53:17.237Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Dispatch in Depth">
+<meta name="twitter:description" content="Redux 是 JavaScript 状态容器，提供可预测化的状态管理。它支持 React、Angular、Ember、jQuery 甚至纯 JavaScript。 知识准备阅读本文时，你需要提前了解一下以下内容：  redux react-redux redux-thunk  这三个库中都提供了 dispatch 方法。本文以这三种不同的 dispatch 为突破口来了解 redux， rea">
+<meta name="twitter:image" content="http://hanpanpan200.github.io/images/redux-dispatch/landing.jpeg">
+  
+    <link rel="alternative" href="/atom.xml" title="GraceHan Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Grace Han</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">一花一世界, 一叶一菩提</p>
+		
+
+		<div align="center" style="margin-top: 23px;">
+			<a href="http://www.blogcounter4free.com" target="_blank">
+				<img src="http://www.blogcounter4free.com/counter.php?page=hanpanpan200.github.io/&digits=36&unique=0" alt="blog counter" border="0;">
+			</a>
+		</div>
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>主菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/hanpanpan200" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/0513penny" title="weibo">weibo</a>
+					        
+								<a class="linkedin" target="_blank" href="https://www.linkedin.com/in/grace-han-aa9397114" title="linkedin">linkedin</a>
+					        
+						</div>
+					</nav>
+				</section>
+
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/2016/" style="font-size: 10px;">2016</a> <a href="/tags/2019/" style="font-size: 10px;">2019</a> <a href="/tags/Dependency/" style="font-size: 10px;">Dependency</a> <a href="/tags/Native-Module-For-React-Native/" style="font-size: 10px;">Native Module For React Native</a> <a href="/tags/NavigatorIOS/" style="font-size: 10px;">NavigatorIOS</a> <a href="/tags/OptionalType/" style="font-size: 10px;">OptionalType</a> <a href="/tags/PushNotification/" style="font-size: 20px;">PushNotification</a> <a href="/tags/Redux/" style="font-size: 10px;">Redux</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/Setup/" style="font-size: 10px;">Setup</a> <a href="/tags/Share/" style="font-size: 10px;">Share</a>
+					</div>
+				</section>
+				
+
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.penghongwei.cc/">MaxPeng</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://bangwu.github.io/">BangWu</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">我就是我，是颜色不一样的吃货…</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Grace Han</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+			
+				<img lazy-src="/avatar.jpg" class="js-avatar">
+			
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Grace Han</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">一花一世界, 一叶一菩提</p>
+			
+			
+			<div align="center" style="margin-top: 23px;">
+				<a href="http://www.blogcounter4free.com" target="_blank">
+					<img src="http://www.blogcounter4free.com/counter.php?page=hanpanpan200.github.io/&digits=36&unique=0" alt="blog counter" border="0;">
+				</a>
+			</div>
+
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/hanpanpan200" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/0513penny" title="weibo">weibo</a>
+			        
+						<a class="linkedin" target="_blank" href="https://www.linkedin.com/in/grace-han-aa9397114" title="linkedin">linkedin</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-dispatch-in-depth" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/06/08/dispatch-in-depth/" class="article-date">
+  	<time datetime="2017-06-08T07:30:33.000Z" itemprop="datePublished">2017-06-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Dispatch in Depth
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/ReactNative/">ReactNative</a>
+	</div>
+
+
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redux/">Redux</a></li></ul>
+	</div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/images/redux-dispatch/landing.jpeg" alt="Landing" width="80%"></p>
+<p><a href="http://cn.redux.js.org/index.html" target="_blank" rel="noopener">Redux</a> 是 JavaScript 状态容器，提供可预测化的状态管理。它支持 React、Angular、Ember、jQuery 甚至纯 JavaScript。</p>
+<h2 id="知识准备"><a href="#知识准备" class="headerlink" title="知识准备"></a>知识准备</h2><p>阅读本文时，你需要提前了解一下以下内容：</p>
+<ul>
+<li><a href="http://cn.redux.js.org/index.html" target="_blank" rel="noopener">redux</a></li>
+<li><a href="https://github.com/reactjs/react-redux" target="_blank" rel="noopener">react-redux</a></li>
+<li><a href="https://github.com/gaearon/redux-thunk" target="_blank" rel="noopener">redux-thunk</a></li>
+</ul>
+<p>这三个库中都提供了 dispatch 方法。<br>本文以这三种不同的 dispatch 为突破口来了解 redux， react-redux 和 redux-thunk 的工作原理。</p>
+<a id="more"></a>
+<h2 id="这篇文章对你是否会有帮助？"><a href="#这篇文章对你是否会有帮助？" class="headerlink" title="这篇文章对你是否会有帮助？"></a>这篇文章对你是否会有帮助？</h2><p>首先请阅读以下三段代码：</p>
+<ol>
+<li><code>./src/index.js</code></li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createStore &#125; <span class="keyword">from</span> <span class="string">'redux'</span></span><br><span class="line"><span class="keyword">import</span> reducer <span class="keyword">from</span> <span class="string">'./someReducer'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> store = createStore(reducer)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addTodo</span>(<span class="params">text</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    type: <span class="string">'ADD_TODO'</span>,</span><br><span class="line">    text</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">store.dispatch(addTodo(<span class="string">'Read the docs'</span>))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>2 <code>./src/containers/LinkContainer.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> mapDispatchToProps = <span class="function">(<span class="params">dispatch, ownProps</span>) =&gt;</span> (&#123;</span><br><span class="line">  onClick: <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    dispatch(setVisibilityFilter(ownProps.filter))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>3 <code>./src/actions/index.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> getAllProducts = <span class="function"><span class="params">()</span> =&gt;</span> <span class="function"><span class="params">dispatch</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// Call API to retrieve products data</span></span><br><span class="line">  shop.getProducts(<span class="function"><span class="params">products</span> =&gt;</span> &#123;</span><br><span class="line">    dispatch(receiveProducts(products))</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>请注意这三段代码中都使用了 <code>dispatch</code>。现在请思考以下几个问题：</p>
+<ol>
+<li>以上三段代码中出现的 dispatch 分别是哪个库提供的？</li>
+<li>以上三种 dispatch 有什么不同？</li>
+<li>以上三段 dispatch 的使用，在 React 中分别适用于什么场景？</li>
+</ol>
+<p>如果以上三个问题，你并不是全部明白，请继续；反之，你可以就此停止阅读这篇文章。</p>
+<h2 id="原生-Redux-中的-dispatch"><a href="#原生-Redux-中的-dispatch" class="headerlink" title="原生 Redux 中的 dispatch"></a>原生 Redux 中的 dispatch</h2><p>在 Redux 中，对 dispatch 的介绍如下：</p>
+<blockquote>
+<p>Dispatches an action. This is the only way to trigger a state change.</p>
+</blockquote>
+<blockquote>
+<p>The store’s reducing function will be called with the current getState() result and the given action synchronously. Its return value will be considered the next state. It will be returned from getState() from now on, and the change listeners will immediately be notified.</p>
+</blockquote>
+<p>Redux 中的 <a href="http://cn.redux.js.org/docs/basics/Store.html" target="_blank" rel="noopener">store</a> 是一个对象：</p>
+<ol>
+<li>每个 Redux 应用中， store 只有一个</li>
+<li>store 是用来维持 state 树的</li>
+<li>Redux 中数据流是单向的，想要使 state 发生变化，只能通过调用 dispatch 方法来分发一个 action</li>
+</ol>
+<p>在“纯正的” redux 中，想要改变 store 中的 state， 需要调用：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">store.dispath(&#123;</span><br><span class="line">  type: <span class="string">'TODO'</span>,</span><br><span class="line">  text: <span class="string">'New todo text'</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>然后 store 接收到传入的 action 之后，会调用 reduce 函数，返回值作为新的 state, 至此，state 得到了更新。</p>
+<h3 id="在-React-中使用“纯正的”-Redux"><a href="#在-React-中使用“纯正的”-Redux" class="headerlink" title="在 React 中使用“纯正的” Redux"></a>在 React 中使用“纯正的” Redux</h3><p>在 React 中 使用 “纯正的” Redux，一共需要以下几个步骤：</p>
+<ol>
+<li>在组件中初始化 store</li>
+<li>调用 store.subscribe(reactRenderMethod) 将 React 组件的 render 方法注册为 listener（当调用 store.dispatch 分发了一个 action 之后，就会执行组件的 render 方法来重新渲染 UI ）</li>
+<li>在组件内调用 store.dispatch(actionCreator) 来改变 store 中的 state（比如：点击了 addTodo 按钮之后，调用 store.dispatch(addTodo)）</li>
+<li>store.dispatch 执行之后，触发注册了的 listener，重新执行 render 方法</li>
+<li>在 render 组件时，调用 store.getState() 获取最新的 state 更新到 UI 上</li>
+</ol>
+<h3 id="局限-–-用“纯正的”-Redux-管理多个组件的状态"><a href="#局限-–-用“纯正的”-Redux-管理多个组件的状态" class="headerlink" title="局限 – 用“纯正的” Redux 管理多个组件的状态"></a>局限 – 用“纯正的” Redux 管理多个组件的状态</h3><p>在只有一个组件的场景下，使用上述“纯正的” Redux 不失为一个简单灵活的方案。</p>
+<p>但是如果组件数量大于一个，并且也需要用 Redux 来管理状态时，怎么办呢？Redux 提供了<a href="http://redux.js.org/docs/api/bindActionCreators.html" target="_blank" rel="noopener">bindActionCreators</a> 方法来解决这种问题。</p>
+<p><code>bindActionCreators</code> 方法的 <a href="https://github.com/reactjs/redux/blob/master/src/bindActionCreators.js" target="_blank" rel="noopener">源码</a> 如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bindActionCreator</span>(<span class="params">actionCreator, dispatch</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">...args</span>) =&gt;</span> dispatch(actionCreator(...args))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从源码中可以看出，<code>bindActionCreator</code>的返回值为一个 function ，这个 function 执行时，会调用 store 的 dispatch 来分发相应的 action creator。</p>
+<p>所以，我们可以用 <code>bindActionCreators</code> 来修改一下 <a href="https://github.com/reactjs/redux/blob/master/examples/counter" target="_blank" rel="noopener">redux counter example</a> 中的 <a href="https://github.com/reactjs/redux/blob/master/examples/counter/src/index.js" target="_blank" rel="noopener">index.js</a> 样例代码：</p>
+<p>Before:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">'react-dom'</span></span><br><span class="line"><span class="keyword">import</span> &#123; createStore &#125; <span class="keyword">from</span> <span class="string">'redux'</span></span><br><span class="line"><span class="keyword">import</span> Counter <span class="keyword">from</span> <span class="string">'./components/Counter'</span></span><br><span class="line"><span class="keyword">import</span> counter <span class="keyword">from</span> <span class="string">'./reducers'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> store = createStore(counter)</span><br><span class="line"><span class="keyword">const</span> rootEl = <span class="built_in">document</span>.getElementById(<span class="string">'root'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> render = <span class="function"><span class="params">()</span> =&gt;</span> ReactDOM.render(</span><br><span class="line">  &lt;Counter</span><br><span class="line">    value=&#123;store.getState()&#125;</span><br><span class="line">    onIncrement=&#123;() =&gt; store.dispatch(&#123; <span class="attr">type</span>: <span class="string">'INCREMENT'</span> &#125;)&#125;</span><br><span class="line">    onDecrement=&#123;() =&gt; store.dispatch(&#123; <span class="attr">type</span>: <span class="string">'DECREMENT'</span> &#125;)&#125;</span><br><span class="line">  /&gt;,</span><br><span class="line">  rootEl</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">render()</span><br><span class="line">store.subscribe(render)</span><br></pre></td></tr></table></figure>
+<p>After:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">'react-dom'</span></span><br><span class="line"><span class="keyword">import</span> &#123; createStore, bindActionCreators &#125; <span class="keyword">from</span> <span class="string">'redux'</span></span><br><span class="line"><span class="keyword">import</span> Counter <span class="keyword">from</span> <span class="string">'./components/Counter'</span></span><br><span class="line"><span class="keyword">import</span> counter <span class="keyword">from</span> <span class="string">'./reducers'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Define action creators</span></span><br><span class="line"><span class="keyword">const</span> increment = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123; <span class="attr">type</span>: <span class="string">'INCREMENT'</span> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> decrement = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123; <span class="attr">type</span>: <span class="string">'DECREMENT'</span> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Create store</span></span><br><span class="line"><span class="keyword">const</span> store = createStore(counter)</span><br><span class="line"><span class="keyword">const</span> rootEl = <span class="built_in">document</span>.getElementById(<span class="string">'root'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Use bindActionCreators to pass action creator wrapped into a dispatch call to a component</span></span><br><span class="line"><span class="keyword">const</span> boundIncrement = bindActionCreators(&#123; increment &#125;, store.dispatch)</span><br><span class="line"><span class="keyword">const</span> boundDecrement = bindActionCreators(&#123; decrement &#125;, store.dispatch)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> render = <span class="function"><span class="params">()</span> =&gt;</span> ReactDOM.render(</span><br><span class="line">  &lt;Counter</span><br><span class="line">    value=&#123;store.getState()&#125;</span><br><span class="line">    onIncrement=&#123;() =&gt; boundIncrement.increment()&#125;</span><br><span class="line">    onDecrement=&#123;() =&gt; boundDecrement.decrement()&#125;</span><br><span class="line">  /&gt;,</span><br><span class="line">  rootEl</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">render()</span><br><span class="line">store.subscribe(render)</span><br></pre></td></tr></table></figure>
+<p>以上的例子中，我们用 <code>bindActionCreactor</code> 把方法 <code>dispatch(actionCreator())</code> 往下传到了组件 Counter 上。但是，在实际项目中，组件的嵌套结构千变万化，比如请考虑下面这种情况：</p>
+<ol>
+<li>组件<code>Counter</code> 中有一个子组件 <code>A</code></li>
+<li>组件<code>A</code> 中有一个子组件 <code>B</code></li>
+<li>组件<code>A</code> 和 组件<code>B</code> 都需要用 Redux 做状态管理</li>
+</ol>
+<p>此时用这种 “纯正”的 Redux 方案的话，此时我们需要把 store 传入 A 和 B 中，并且需要完成 Redux 中的 state 和 action creator 与组件之间的绑定。即以下两步：</p>
+<ol>
+<li>每次 store 中的状态发生改变之后，都要更新数据到 UI 上</li>
+<li>需要调用 store.dispatch 去使 store 中的数据发生改变。</li>
+</ol>
+<p>为了解决这个问题，<a href="https://github.com/reactjs/react-redux" target="_blank" rel="noopener">react-redux</a> 便应运而生了。</p>
+<h2 id="react-redux-中的-dispatch"><a href="#react-redux-中的-dispatch" class="headerlink" title="react-redux 中的 dispatch"></a>react-redux 中的 dispatch</h2><p>回到们上面讨论的第二个代码段。（代码来自 <a href="https://github.com/reactjs/redux/blob/master/examples/todos/src/containers/FilterLink.js" target="_blank" rel="noopener">redux todos example</a> ）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// FilterLink.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; connect &#125; <span class="keyword">from</span> <span class="string">'react-redux'</span></span><br><span class="line"><span class="keyword">import</span> &#123; setVisibilityFilter &#125; <span class="keyword">from</span> <span class="string">'../actions'</span></span><br><span class="line"><span class="keyword">import</span> Link <span class="keyword">from</span> <span class="string">'../components/Link'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> mapStateToProps = <span class="function">(<span class="params">state, ownProps</span>) =&gt;</span> (&#123;</span><br><span class="line">  active: ownProps.filter === state.visibilityFilter</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> mapDispatchToProps = <span class="function">(<span class="params">dispatch, ownProps</span>) =&gt;</span> (&#123;</span><br><span class="line">  onClick: <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    dispatch(setVisibilityFilter(ownProps.filter))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> FilterLink = connect(</span><br><span class="line">  mapStateToProps,</span><br><span class="line">  mapDispatchToProps</span><br><span class="line">)(Link)</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> FilterLink</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>mapDispatchToProps 是一个入参包含了 dispatch 的 function ，因此想要了解 dispatch 是哪里来的，我们需要追踪一下 dispatch 在什么时机被谁调用了。所以我们需要把 connect 作为突破口，看看 mapDispatchToProps 在 connect 方法中进行了怎么样的处理。</p>
+<h3 id="connect是怎样工作的？"><a href="#connect是怎样工作的？" class="headerlink" title="connect是怎样工作的？"></a>connect是怎样工作的？</h3><p>在 <a href="https://github.com/reactjs/react-redux/blob/master/src/connect/connect.js" target="_blank" rel="noopener">connect 方法的源码</a> 中：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// connect.js</span></span><br><span class="line"><span class="keyword">import</span> connectAdvanced <span class="keyword">from</span> <span class="string">'../components/connectAdvanced'</span></span><br><span class="line"><span class="keyword">import</span> defaultSelectorFactory <span class="keyword">from</span> <span class="string">'./selectorFactory'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">createConnect</span>(<span class="params">&#123;connectHOC = connectAdvanced, ...otherProps, selectorFactory = defaultSelectorFactory&#125;</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">connect</span>(<span class="params">mapStateToProps, mapDispatchToProps,&#123;...props&#125;</span>) </span>&#123;</span><br><span class="line">		<span class="keyword">const</span> initMapDispatchToProps = match(mapDispatchToProps, mapDispatchToPropsFactories, <span class="string">'mapDispatchToProps'</span>)</span><br><span class="line">		<span class="comment">// Blah blah...</span></span><br><span class="line">		<span class="keyword">return</span> connectHOC(selectorFactory, &#123;</span><br><span class="line">			initMapDispatchToProps，</span><br><span class="line">			...otherProps</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> createConnect()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>可以看出，connect方法最终把 initMapDispatchProps 作为参数传入了 connectHOC 方法中，并将其返回。下面我们来看看 connectHOC 方法中，都做了些什么事情。</p>
+<h3 id="connectAdvanced-–-绑定-state-和-action-creator-到组件中"><a href="#connectAdvanced-–-绑定-state-和-action-creator-到组件中" class="headerlink" title="connectAdvanced – 绑定 state 和 action creator 到组件中"></a>connectAdvanced – 绑定 state 和 action creator 到组件中</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// connectAdvanced.js</span></span><br><span class="line"><span class="keyword">import</span> hoistStatics <span class="keyword">from</span> <span class="string">'hoist-non-react-statics'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">connectAdvanced</span>(<span class="params">selectorFactory, &#123; initMapDispatchToProps, ...otherOptions &#125;</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">wrapWithConnect</span>(<span class="params">WrappedComponent</span>) </span>&#123;</span><br><span class="line">		<span class="class"><span class="keyword">class</span> <span class="title">Connect</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">		  <span class="keyword">constructor</span>(props, context) &#123;</span><br><span class="line">		    <span class="keyword">super</span>(props, context)</span><br><span class="line">		    <span class="keyword">this</span>.store = props[storeKey] || context[storeKey]</span><br><span class="line">		    <span class="comment">// Blah blah...</span></span><br><span class="line">		    <span class="keyword">this</span>.initSelector()</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">const</span> selectorFactoryOptions = &#123; &#123;initMapDispatchToProps, ...connectOptions&#125;, ...otherOptions &#125;</span><br><span class="line">			</span><br><span class="line">			initSelector() &#123;</span><br><span class="line">		    <span class="keyword">const</span> sourceSelector = selectorFactory(<span class="keyword">this</span>.store.dispatch, selectorFactoryOptions)</span><br><span class="line">		    <span class="keyword">this</span>.selector = makeSelectorStateful(sourceSelector, <span class="keyword">this</span>.store)</span><br><span class="line">		    <span class="keyword">this</span>.selector.run(<span class="keyword">this</span>.props)</span><br><span class="line">		  &#125;	</span><br><span class="line">		&#125;		</span><br><span class="line">		<span class="keyword">return</span> hoistStatics(Connect, WrappedComponent)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>从上述代码中我们可以了解到，<code>connect</code> 调用之后，会返回一个 <code>function</code>，且此 <code>function</code>的入参为一个 <code>Component</code>。</p>
+<p>最终返回为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">hoistStatics(Connect, WrappedComponent)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/mridgway/hoist-non-react-statics" target="_blank" rel="noopener">hoist-non-react-statics</a> 这个库是用来： </p>
+<blockquote>
+<p>Copies non-react specific statics from a child component to a parent component. Similar to Object.assign</p>
+</blockquote>
+<p>所以当我们调用:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">connect(mapStateToProps, mapDispatchToProps)(SomeComponent)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>之后，最终的返回值是一个复制了 SomeComponent 属性的新的 Componenent，即为我们常说的: container  component。</p>
+<p>而在构造这个 container  component 时，执行了 selectorFactory 方法，将 <code>this.store.dispatch</code> 和 initMapDispatchToProps 作为参数传入。</p>
+<p>此时，selectorFactory 方法中便同时可以访问到 store.dispatch 和 <code>mapDispatchToProps</code>了！让我们一起了解一下，这个方法在做什么事情吧！</p>
+<h3 id="selectorFactory-–-mapping-action-creator-和-state-到组件的-props-中"><a href="#selectorFactory-–-mapping-action-creator-和-state-到组件的-props-中" class="headerlink" title="selectorFactory – mapping action creator 和 state 到组件的 props 中"></a>selectorFactory – mapping action creator 和 state 到组件的 props 中</h3><p>从 <a href="https://github.com/reactjs/react-redux/blob/master/src/connect/selectorFactory.js" target="_blank" rel="noopener">selectorFactory.js源码</a> 中我们可以知道：</p>
+<ol>
+<li><code>selectorFactory</code> 的入参有两个：dispatch 和其他初始化属性（包括 mapDispatchToProps）</li>
+<li><code>selectorFactory</code> 会根据 <code>store.state</code> 计算出新的 <code>props</code>，并把所有的<code>actionCreator</code> 包在 dispatch 中，最终调用 <code>mergedProps</code> 把这些 props 合并后返回</li>
+</ol>
+<p>现在我们明白了，connect 方法会返回一个新的 container  component，并且初始化这个 container  component 时，会用 this.store.dispatch 把需要绑定的 action creator 包起来，放在 container  component 的 props 中。</p>
+<p>现在又有一个新问题了，我们在这个组件中使用了 <code>this.store.dispatch</code>。 但是此前只有在 Provider 组件中传入了 store，这个 Provider 的子组件是怎么能拿到 store 的呢？</p>
+<p>在生成新的container component时，构造函数中是这样为 this.store赋值的：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">this</span>.store = props[storeKey] || context[storeKey]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>调试的截图如下：<br><img src="/images/redux-dispatch/debug.png" alt="screenshot" width="80%"></p>
+<p>可知此时的 store 来自于 <code>context</code>。</p>
+<h3 id="context-–-传递-store-到组件树中"><a href="#context-–-传递-store-到组件树中" class="headerlink" title="context – 传递 store 到组件树中"></a>context – 传递 store 到组件树中</h3><p>在应用的入口，我们将 store 传入了 react-redux 中的 Provider 组件中(代码来自 <a href="https://github.com/reactjs/redux/blob/master/examples/todos/src/index.js" target="_blank" rel="noopener">redux todos example</a> )。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"><span class="keyword">import</span> &#123; render &#125; <span class="keyword">from</span> <span class="string">'react-dom'</span></span><br><span class="line"><span class="keyword">import</span> &#123; createStore &#125; <span class="keyword">from</span> <span class="string">'redux'</span></span><br><span class="line"><span class="keyword">import</span> &#123; Provider &#125; <span class="keyword">from</span> <span class="string">'react-redux'</span></span><br><span class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">'./components/App'</span></span><br><span class="line"><span class="keyword">import</span> reducer <span class="keyword">from</span> <span class="string">'./reducers'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> store = createStore(reducer)</span><br><span class="line"></span><br><span class="line">render(</span><br><span class="line">  &lt;Provider store=&#123;store&#125;&gt;</span><br><span class="line">    &lt;App /&gt;</span><br><span class="line">  &lt;<span class="regexp">/Provider&gt;,</span></span><br><span class="line"><span class="regexp">  document.getElementById('root')</span></span><br><span class="line"><span class="regexp">)</span></span><br><span class="line"><span class="regexp"></span></span><br></pre></td></tr></table></figure>
+<p>在 <a href="https://github.com/reactjs/react-redux/blob/master/src/components/Provider.js" target="_blank" rel="noopener">Provider的源码</a> 中：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Provider</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  getChildContext() &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; [storeKey]: <span class="keyword">this</span>[storeKey], [subscriptionKey]: <span class="literal">null</span> &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">constructor</span>(props, context) &#123;</span><br><span class="line">	 <span class="keyword">super</span>(props, context)</span><br><span class="line">	 <span class="keyword">this</span>[storeKey] = props.store;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// Blah blah...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Provider组件的构造函数中，将 <code>store</code> 放在了 <a href="https://facebook.github.io/react/docs/context.html" target="_blank" rel="noopener">context</a> 中，context 在 React 中的用法为：</p>
+<blockquote>
+<p>In some cases, you want to pass data through the component tree without having to pass the props down manually at every level. You can do this directly in React with the powerful “context” API.</p>
+</blockquote>
+<p>因此，Provider 组件通过 context 把 store 传到了以它为根节点的所有子组件中。</p>
+<h3 id="react-redux-的工作原理"><a href="#react-redux-的工作原理" class="headerlink" title="react-redux 的工作原理"></a>react-redux 的工作原理</h3><p>通过以上分析，我们可以知道：</p>
+<ol>
+<li>在应用入口将 store 传入 Provider 组件 (用 Redux 做状态管理的组件树的根节点)</li>
+<li>Provider 将 store 通过 context 传递给以它为根节点的组件树中的所有子组件</li>
+<li>以 Provider 组件为根节点的组件树中的子 container  component 是通过调用 connect 之后生成的。 调用 connect 方法后，<code>react-redux</code> 会根据 PresentationalComponent 和传入的 state &amp; actionCreator 计算出新的 container  component。 在新的 container  component 中：从 context 中获取根节点组件传入的 store，包装传入的 actionCreator 为 store.dispatch(actionCreator) ，并将其绑定到组件的 props 中；将 state 绑定到组件的 props中；最终返回  container  component 。</li>
+</ol>
+<h2 id="react-thunk-中的-dispatch"><a href="#react-thunk-中的-dispatch" class="headerlink" title="react-thunk 中的 dispatch"></a>react-thunk 中的 dispatch</h2><p>代码段一中使用的是：“纯正”的 Redux 。<br>代码段二中使用的是： react-redux 。<br>掌握了以上两种使用方法，我们就可以基本 handle 住大部分的 redux 应用了。</p>
+<h3 id="异步的-action-creator"><a href="#异步的-action-creator" class="headerlink" title="异步的 action creator"></a>异步的 action creator</h3><p>在实际项目中，异步操作的处理是很常见的，比如说：</p>
+<ol>
+<li>在某个页面读取文件时显示 loading 或者进度条，当文件读取成功后，展示文件。</li>
+<li>发送 API 请求，当请求成功之后，展示数据。请求失败之后，显示错误消息。</li>
+</ol>
+<p>下面我们就用从代码段一和代码段二中学到的知识来实现下面的需求：</p>
+<blockquote>
+<p>根据 API server 返回的 products 数据渲染列表。</p>
+</blockquote>
+<p>这个处理中一共包含两个操作：</p>
+<ol>
+<li>发送 API 请求来获取 products 数据。</li>
+<li>拿到 API 请求的返回值以后，dispatch action 来更新 store 中的 products 数据。</li>
+</ol>
+<p>为了把数据处理和 UI 展示分离，我们把这两个操作都放在 action 中去处理：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ProductsContainer.js</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mapStateToProps</span>(<span class="params">state</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    products: state.products.list,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> mapDispatchToProps = <span class="function"><span class="params">dispatch</span> =&gt;</span> (&#123;</span><br><span class="line">  getAllProducts,</span><br><span class="line">  dispatch,</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> connect(mapStateToProps, mapDispatchToProps)(Products)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Products.js</span></span><br><span class="line"><span class="comment">//...</span></span><br><span class="line">  componentDidMount() &#123;</span><br><span class="line">    <span class="keyword">this</span>.props.getAllProducts(<span class="keyword">this</span>.props.dispatch)</span><br><span class="line">  &#125;</span><br><span class="line"><span class="comment">//...</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// action.js</span></span><br><span class="line"><span class="keyword">import</span> shop <span class="keyword">from</span> <span class="string">'../utils/apiHelper'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">receiveProducts</span>(<span class="params">products</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> &#123;</span><br><span class="line">    type: <span class="string">'PRODUCTS/RECEIVE_PRODUCTS'</span>,</span><br><span class="line">    payload: products,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> getAllProducts(dispatch) &#123;</span><br><span class="line">	shop.getProducts(<span class="function"><span class="params">products</span> =&gt;</span> &#123;</span><br><span class="line">		dispatch(receiveProducts(products))</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上代码中，dispatch 总共出现了三次：</p>
+<ol>
+<li><code>action.js</code> 中，<code>getAllProducts</code> 方法的入参为 <code>dispatch</code>。</li>
+<li>在 <code>mapDispatchToProps</code> 方法中，把 <code>dispatch</code> 也传入了 <code>Products</code> 组件中。</li>
+<li>在 <code>Products</code> 组件在调用 <code>getAllProducts</code> 方法时，把 <code>this.props.dispatch</code> 作为参数传了进去。</li>
+</ol>
+<p>在 “纯正的” Redux 和 “react-redux” 中，调用 dispatch 去分发一个 action creator 时，<a href="http://redux.js.org/docs/Glossary.html#action-creator" target="_blank" rel="noopener">action creator</a> 的返回值必须是一个 plain object。当 dispatch 某一个 action creator 时，react-redux 会默认帮我们执行 dispatch(actionCreator())，因此分发 action creator 时不用手动传入 dispatch 参数。</p>
+<p>但是我们现在的 action creator 是一个包含了两个操作的 function。如果不手动传入 dispatch 的话, react-redux 就会在这个function 外面包上一个 dispatch 去分发 action，于是我们会得到错误：<br><code>Action can only be plain object</code></p>
+<p>因此，我们可以类推出：action creator 中的异步操作将都会需要在以上三个地方加上关于 dispatch 参数传递的处理。如果你的应用足够简单，那么这样的做法就够用了。但是如果你的应用中存在很多的异步操作，恐怕就会出现大量的重复代码了。</p>
+<p>那么怎样在 action creator 中处理异步的 action 呢？</p>
+<p>异步的 action creator 并不会直接执行某一个函数并返回 plain action object ，而是需要在执行某个方法之后，才会返回 plain action object。</p>
+<p>答案就是：<a href="https://github.com/gaearon/redux-thunk" target="_blank" rel="noopener">redux-thunk</a></p>
+<h3 id="用-redux-thunk-处理异步-action-creator"><a href="#用-redux-thunk-处理异步-action-creator" class="headerlink" title="用 redux-thunk 处理异步 action creator"></a>用 redux-thunk 处理异步 action creator</h3><p>redux-thunk 是 Redux 中解决异步 action creator 的标准方案。代码段三就是使用的这种方案。</p>
+<p>redux-thunk 是一个 <a href="http://redux.js.org/docs/advanced/Middleware.html" target="_blank" rel="noopener">redux middleware</a> 。 这里有一篇关于 redux middleware 的文章 <a href="http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_two_async_operations.html" target="_blank" rel="noopener">中间件与异步操作</a>，大家感兴趣的话可以查看。</p>
+<blockquote>
+<p>It provides a third-party extension point between dispatching an action, and the moment it reaches the reducer. People use Redux middleware for logging, crash reporting, talking to an asynchronous API, routing, and more.</p>
+</blockquote>
+<p>代码段三：（代码来自 <a href="https://github.com/reactjs/redux/blob/master/examples/shopping-cart/src/actions/index.js" target="_blank" rel="noopener">redux shopping-cart example</a> ）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ./src/actions/index.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> getAllProducts = <span class="function"><span class="params">()</span> =&gt;</span> <span class="function"><span class="params">dispatch</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// Call API to retrieve products data</span></span><br><span class="line">  shop.getProducts(<span class="function"><span class="params">products</span> =&gt;</span> &#123;</span><br><span class="line">    dispatch(receiveProducts(products))</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>这段代码的功能是：</p>
+<p>请求API，当获取了 products 数据之后，dispatch 一个 receiveProducts 的 action 。</p>
+<p>在 Redux 中，action creator 的返回值只能是 <code>plain action object</code>， 但是当用了 redux-thunk 之后，我们就可以在 action creator 中返回一个 function 了。那么这个 function 是怎样执行的呢？</p>
+<p>从 <a href="https://github.com/gaearon/redux-thunk/blob/master/src/index.js" target="_blank" rel="noopener">redux-thunk 源码</a> 来看：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createThunkMiddleware</span>(<span class="params">extraArgument</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">&#123; dispatch, getState &#125;</span>) =&gt;</span> <span class="function"><span class="params">next</span> =&gt;</span> <span class="function"><span class="params">action</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> action === <span class="string">'function'</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> action(dispatch, getState, extraArgument);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> next(action);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> thunk = createThunkMiddleware();</span><br><span class="line">thunk.withExtraArgument = createThunkMiddleware;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> thunk;</span><br></pre></td></tr></table></figure>
+<p>当 dispatch(getAllProducts()) 时，middleware 会拿到下面的 action :</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>(<span class="params">dispatch</span>) </span>&#123;</span><br><span class="line">  shop.getProducts(<span class="function"><span class="params">products</span> =&gt;</span> &#123;</span><br><span class="line">    dispatch(receiveProducts(products))</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当判断这个 action 的类型是 function 时，会把 store 中的 <code>dispatch</code>, <code>getState</code>, <code>extraArgument</code> 一起传给这个 function (此时 dispatch 被赋值为 <code>store.dispatch</code>)，然后执行它。所以当 API 请求成功之后，可以调用 <code>dispatch(receiveProducts(products))</code>。</p>
+<p>middleware 的工作原理和如何写一个 middleware 并不是本文的重点，所以暂时不在此做详细介绍。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>读到这里，你现在知道文章开头提到的三个问题的答案了吗？</p>
+<p>在 React 中使用 Redux 时，<code>react-redux</code> 和 <code>redux-thunk</code> 都是官方推荐的，所以我们经常会在项目中看到各式各样的 dispatch。在定义 <code>action creator</code> 或者 调用 <code>mapDispatchToProps</code> 时有的需要把 dispatch 传入 function 中，有的却可以省略。希望本文可以让大家 <code>redux</code>，<code>react-redux</code> 和 <code>redux-thunk</code> 有更好的理解。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/07/12/icons-in-rn/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Using Icons in React Native
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/02/08/react-native-android-share/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">React Native 在 Android 中下载文件并分享</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+<div class="share_addthis">
+  <div class="sharing addthis_toolbox share">
+    <a class="addthis_button_facebook_like"></a>
+    <a class="addthis_button_tweet"></a>
+    <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-560c64c35486b3d4" async="async"></script>
+</div>
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="dispatch-in-depth" data-title="Dispatch in Depth" data-url="http://hanpanpan200.github.io/2017/06/08/dispatch-in-depth/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"Grace"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2020 Grace Han
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
