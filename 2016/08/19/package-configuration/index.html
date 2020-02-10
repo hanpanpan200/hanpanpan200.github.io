@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>谈谈依赖的版本控制配置 | GraceHan Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="项目中引用第三方包你一般会在什么时候更新呢？是一旦用了某个版本就再也不会更新？还是一有新版本就马上更新？还是定期检查release note，根据自己的需要更新？ 在一个React Native项目中，考虑到React Native升级的很频繁，于是团队决定，我们会固定一个React Native版本，每过一个阶段之后，由团队中一个人去完成升级工作。等这个人本地的升级完成，测试通过后，将升级后的代">
-<meta name="keywords" content="Dependency">
+  <meta name="description" content="项目中引用第三方包你一般会在什么时候更新呢？是一旦用了某个版本就再也不会更新？还是一有新版本就马上更新？还是定期检查release note，根据自己的需要更新？
+在一个React Native项目中，考虑到React Native升级的很频繁，于是团队决定，我们会固定一个React Native版本，每过一个阶段之后，由团队中一个人去完成升级工作。等这个人本地的升级完成，测试通过后，将升级后的代">
 <meta property="og:type" content="article">
 <meta property="og:title" content="谈谈依赖的版本控制配置">
 <meta property="og:url" content="http://hanpanpan200.github.io/2016/08/19/package-configuration/index.html">
 <meta property="og:site_name" content="GraceHan Blog">
-<meta property="og:description" content="项目中引用第三方包你一般会在什么时候更新呢？是一旦用了某个版本就再也不会更新？还是一有新版本就马上更新？还是定期检查release note，根据自己的需要更新？ 在一个React Native项目中，考虑到React Native升级的很频繁，于是团队决定，我们会固定一个React Native版本，每过一个阶段之后，由团队中一个人去完成升级工作。等这个人本地的升级完成，测试通过后，将升级后的代">
-<meta property="og:locale" content="en">
+<meta property="og:description" content="项目中引用第三方包你一般会在什么时候更新呢？是一旦用了某个版本就再也不会更新？还是一有新版本就马上更新？还是定期检查release note，根据自己的需要更新？
+在一个React Native项目中，考虑到React Native升级的很频繁，于是团队决定，我们会固定一个React Native版本，每过一个阶段之后，由团队中一个人去完成升级工作。等这个人本地的升级完成，测试通过后，将升级后的代">
 <meta property="og:updated_time" content="2020-02-10T14:53:17.238Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="谈谈依赖的版本控制配置">
-<meta name="twitter:description" content="项目中引用第三方包你一般会在什么时候更新呢？是一旦用了某个版本就再也不会更新？还是一有新版本就马上更新？还是定期检查release note，根据自己的需要更新？ 在一个React Native项目中，考虑到React Native升级的很频繁，于是团队决定，我们会固定一个React Native版本，每过一个阶段之后，由团队中一个人去完成升级工作。等这个人本地的升级完成，测试通过后，将升级后的代">
+<meta name="twitter:description" content="项目中引用第三方包你一般会在什么时候更新呢？是一旦用了某个版本就再也不会更新？还是一有新版本就马上更新？还是定期检查release note，根据自己的需要更新？
+在一个React Native项目中，考虑到React Native升级的很频繁，于是团队决定，我们会固定一个React Native版本，每过一个阶段之后，由团队中一个人去完成升级工作。等这个人本地的升级完成，测试通过后，将升级后的代">
   
     <link rel="alternative" href="/atom.xml" title="GraceHan Blog" type="application/atom+xml">
   
@@ -26,7 +27,7 @@
   
   <link rel="stylesheet" href="/css/style.css">
 </head>
-</html>
+
 <body>
   <div id="container">
     <div class="left-col">
@@ -251,7 +252,7 @@
 <a id="more"></a>
 <h2 id="修改依赖的版本控制配置"><a href="#修改依赖的版本控制配置" class="headerlink" title="修改依赖的版本控制配置"></a>修改依赖的版本控制配置</h2><p>由于Jest现在需要react native 至少0.30.0的支持了，目前ReactNative的最新稳定版本在0.31.0。<br>于是昨天就将React Native升级到了 0.31.0。</p>
 <blockquote>
-<p><a href="mailto:react-native@0.26.3" target="_blank" rel="noopener">react-native@0.26.3</a> =&gt; <a href="mailto:react-native@0.31.0" target="_blank" rel="noopener">react-native@0.31.0</a><br><a href="mailto:react@15.0.2" target="_blank" rel="noopener">react@15.0.2</a> =&gt; <a href="mailto:react@15.2.1" target="_blank" rel="noopener">react@15.2.1</a></p>
+<p><a href="mailto:react-native@0.26.3" target="_blank" rel="external">react-native@0.26.3</a> =&gt; <a href="mailto:react-native@0.31.0" target="_blank" rel="external">react-native@0.31.0</a><br><a href="mailto:react@15.0.2" target="_blank" rel="external">react@15.0.2</a> =&gt; <a href="mailto:react@15.2.1" target="_blank" rel="external">react@15.2.1</a></p>
 </blockquote>
 <p>升级完之后，肉测了项目里所有为数不多的功能之后(等把Jest测试加上，就终于不用每次改点代码就心惊肉跳了)，今天早上merge了，自信满满地提醒同事们可以升级了。</p>
 <p>20分钟之后，反应来了，Berry说他本地升级完之后出现了很多这样子的warning:</p>
@@ -259,16 +260,16 @@
 <p>Warning: You are manually calling a React.PropTypes validation function for the ‘bottom’ prop on ‘StyleSheet.fullScreen’. This is deprecated…</p>
 </blockquote>
 <p>咦？怎么会酱紫？我本地怎么都没有？google 之</p>
-<p>后来查到了这个 <a href="https://github.com/facebook/react-native/issues/9093" target="_blank" rel="noopener">issue</a></p>
-<p>这是<a href="mailto:react@15.3.0" target="_blank" rel="noopener">react@15.3.0</a>的bug，竟然出现在了Berry的机器上。。辣么。。</p>
+<p>后来查到了这个 <a href="https://github.com/facebook/react-native/issues/9093" target="_blank" rel="external">issue</a></p>
+<p>这是<a href="mailto:react@15.3.0" target="_blank" rel="external">react@15.3.0</a>的bug，竟然出现在了Berry的机器上。。辣么。。</p>
 <p>请Berry查了他本地的react版本，确认一下凶手。</p>
 <p> <code>npm ls react</code></p>
-<p> 结果就是 <a href="mailto:`react@15.3.0" target="_blank" rel="noopener">`react@15.3.0</a>`</p>
+<p> 结果就是 <a href="mailto:`react@15.3.0" target="_blank" rel="external">`react@15.3.0</a>`</p>
 <p> 瞄一眼<code>package.json</code></p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">"react": "^15.2.1",</span><br><span class="line">"react-native": "^0.31.0",</span><br></pre></td></tr></table></figure>
 <p>对！凶手只有一个！他就是！ 我！。。</p>
 <p><code>^15.2.1</code> 意思是 <code>15.2.1 &lt;= version &lt; 16.0.0</code>，回想升级的过程</p>
-<p>按照<a href="https://facebook.github.io/react-native/docs/upgrading.html" target="_blank" rel="noopener">Official docs</a> 执行的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save react-native@0.31</span><br></pre></td></tr></table></figure></p>
+<p>按照<a href="https://facebook.github.io/react-native/docs/upgrading.html" target="_blank" rel="external">Official docs</a> 执行的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save react-native@0.31</span><br></pre></td></tr></table></figure></p>
 <p>升级完之后，默认更新了 <code>package.json</code>， 都怪自己粗心没有留意版本。</p>
 <p>最后方案是：把版本号固定，日后升级由某一个人单独做升级，并且解决了升级过程中出现的问题之后，所有人再一起upgrade，这样既可以达到升级目的，也可以划分明确的关注点，升级的人只做好升级，做功能的人专心做功能不用担心由于跑一遍 <code>npm install</code> 就跑出来莫名其妙的warning 和 error。</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">"react": "15.2.1",</span><br><span class="line">"react-native": "0.31.0",</span><br></pre></td></tr></table></figure>

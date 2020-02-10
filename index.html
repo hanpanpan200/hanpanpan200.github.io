@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>GraceHan Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="This is Grace Han&apos;s blog">
@@ -12,7 +12,6 @@
 <meta property="og:url" content="http://hanpanpan200.github.io/index.html">
 <meta property="og:site_name" content="GraceHan Blog">
 <meta property="og:description" content="This is Grace Han&apos;s blog">
-<meta property="og:locale" content="en">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GraceHan Blog">
 <meta name="twitter:description" content="This is Grace Han&apos;s blog">
@@ -24,7 +23,7 @@
   
   <link rel="stylesheet" href="/css/style.css">
 </head>
-</html>
+
 <body>
   <div id="container">
     <div class="left-col">
@@ -294,7 +293,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="/images/set-env-via-xcconfig-and-scheme/logo.svg" alt="Landing" width="60%" height="400px"></p>
+        <p><img src="/images/set-env-via-xcconfig-and-scheme/logo.svg" alt="Landing" width="60%" height="400px" /></p>
 <p>想象一个场景，我们正在开发一款支付系统，这个支付系统同时支持有Web版和原生的iOS APP版本。<br>这个支付系统有三个环境：</p>
 <ul>
 <li>dev: 调用支付的开发环境接口，并不会真的扣钱。</li>
@@ -363,7 +362,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="/images/pushing-notification-in-RN/android-landing.jpeg" alt="landing" width="80%"></p>
+        <p><img src="/images/pushing-notification-in-RN/android-landing.jpeg" alt="landing" width="80%"/></p>
 <p>在上篇文章中，我们提到了 <a href="http://hanpanpan200.github.io/2017/11/20/pushing-notification-in-RN-iOS">怎样在 iOS 中集成 react-natiave-fcm</a>，今天我们主要讨论 Android 中的配置和注意事项。</p>
       
     </div>
@@ -428,14 +427,14 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="/images/pushing-notification-in-RN/landing.jpg" alt="landing" width="80%"></p>
-<p>消息推送在 App 中很常用，那么在 React Native 中怎样来集成消息推送呢？Google 推出的 <a href="https://firebase.google.com/docs/cloud-messaging/?hl=zh-cn" target="_blank" rel="noopener">Firebase Cloud Messaging</a> 是用来做消息推送的，不过在中国国内使用时需要安装 Google Service 。</p>
+        <p><img src="/images/pushing-notification-in-RN/landing.jpg" alt="landing" width="80%"/></p>
+<p>消息推送在 App 中很常用，那么在 React Native 中怎样来集成消息推送呢？Google 推出的 <a href="https://firebase.google.com/docs/cloud-messaging/?hl=zh-cn">Firebase Cloud Messaging</a> 是用来做消息推送的，不过在中国国内使用时需要安装 Google Service 。</p>
 <p>阅读本文时，你需要知道以下几个概念：</p>
 <ol>
-<li><a href="https://firebase.google.com/docs/cloud-messaging/?hl=zh-cn" target="_blank" rel="noopener">Firebase Cloud Messaging</a>：Firebase 的消息推送服务，是 <a href="https://developers.google.com/cloud-messaging/" target="_blank" rel="noopener">GCM</a> 的 升级版，是 Android 消息推送的新方案，并且其在背后集成了 Apple 的 APNs 服务, 因此开发者可以使用它提供的接口向 iOS 和 Android 设备推送消息。</li>
-<li><a href="https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/APNSOverview.html#//apple_ref/doc/uid/TP40008194-CH8-SW1" target="_blank" rel="noopener">APNs</a>: Apple 的 APNs 服务是消息推送功能的核心，开发者可以使用它提供的一系列接口向 iOS App 推送消息。</li>
+<li><a href="https://firebase.google.com/docs/cloud-messaging/?hl=zh-cn">Firebase Cloud Messaging</a>：Firebase 的消息推送服务，是 <a href="https://developers.google.com/cloud-messaging/">GCM</a> 的 升级版，是 Android 消息推送的新方案，并且其在背后集成了 Apple 的 APNs 服务, 因此开发者可以使用它提供的接口向 iOS 和 Android 设备推送消息。</li>
+<li><a href="https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/APNSOverview.html#//apple_ref/doc/uid/TP40008194-CH8-SW1">APNs</a>: Apple 的 APNs 服务是消息推送功能的核心，开发者可以使用它提供的一系列接口向 iOS App 推送消息。</li>
 </ol>
-<p><a href="https://github.com/evollu/react-native-fcm" target="_blank" rel="noopener">react-native-fcm</a> 是 <a href="https://firebase.google.com/docs/cloud-messaging/?hl=zh-cn" target="_blank" rel="noopener">Firebase Cloud Messaging</a> 的 React Native 插件，将其集成到 React Native 项目中时，需要完成 iOS 和 Android 项目中的消息推送配置后，才可成功向对应的平台成功推送消息。本文属于 <a href="http://hanpanpan200.github.io/tags/PushNotification/">基于 react-native-fcm 的消息推送</a> 系列文档的第一篇，主要介绍基于 react-native-fcm 的 iOS 消息推送配置。</p>
+<p><a href="https://github.com/evollu/react-native-fcm">react-native-fcm</a> 是 <a href="https://firebase.google.com/docs/cloud-messaging/?hl=zh-cn">Firebase Cloud Messaging</a> 的 React Native 插件，将其集成到 React Native 项目中时，需要完成 iOS 和 Android 项目中的消息推送配置后，才可成功向对应的平台成功推送消息。本文属于 <a href="http://hanpanpan200.github.io/tags/PushNotification/">基于 react-native-fcm 的消息推送</a> 系列文档的第一篇，主要介绍基于 react-native-fcm 的 iOS 消息推送配置。</p>
       
     </div>
     
@@ -499,7 +498,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="/images/create-custom-native-modules-in-RN/landing.jpeg" alt="Landing" width="80%"></p>
+        <p><img src="/images/create-custom-native-modules-in-RN/landing.jpeg" alt="Landing" width="80%"/></p>
 <p>虽然 React Native 目前已经提供了很多常用的组件，但是在实际项目中，我们总会发现需求往往是这些常用组件所不能够满足的。比如说：图像识别模块、指纹识别模块等。这种模块大部分已经有了比较成熟的SDK，我们此时需要做的就是将已有的轮子，封装到 React Native 中来使用。</p>
 <p>经过一些尝试和探索后，我终于找到了一个比较容易上手的封装 React Native 插件方案，希望能得到更多的反馈来改善。</p>
       
@@ -565,7 +564,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="/images/icons-in-rn/landing.jpg" alt="Landing" width="80%"></p>
+        <p><img src="/images/icons-in-rn/landing.jpg" alt="Landing" width="80%"/></p>
 <p>在 React Native 开发中，我们常常会有下面这样的需求：</p>
 <ol>
 <li>需要在 App 中显示图标</li>
@@ -634,13 +633,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="/images/redux-dispatch/landing.jpeg" alt="Landing" width="80%"></p>
-<p><a href="http://cn.redux.js.org/index.html" target="_blank" rel="noopener">Redux</a> 是 JavaScript 状态容器，提供可预测化的状态管理。它支持 React、Angular、Ember、jQuery 甚至纯 JavaScript。</p>
+        <p><img src="/images/redux-dispatch/landing.jpeg" alt="Landing" width="80%"/></p>
+<p><a href="http://cn.redux.js.org/index.html">Redux</a> 是 JavaScript 状态容器，提供可预测化的状态管理。它支持 React、Angular、Ember、jQuery 甚至纯 JavaScript。</p>
 <h2 id="知识准备"><a href="#知识准备" class="headerlink" title="知识准备"></a>知识准备</h2><p>阅读本文时，你需要提前了解一下以下内容：</p>
 <ul>
-<li><a href="http://cn.redux.js.org/index.html" target="_blank" rel="noopener">redux</a></li>
-<li><a href="https://github.com/reactjs/react-redux" target="_blank" rel="noopener">react-redux</a></li>
-<li><a href="https://github.com/gaearon/redux-thunk" target="_blank" rel="noopener">redux-thunk</a></li>
+<li><a href="http://cn.redux.js.org/index.html">redux</a></li>
+<li><a href="https://github.com/reactjs/react-redux">react-redux</a></li>
+<li><a href="https://github.com/gaearon/redux-thunk">redux-thunk</a></li>
 </ul>
 <p>这三个库中都提供了 dispatch 方法。<br>本文以这三种不同的 dispatch 为突破口来了解 redux， react-redux 和 redux-thunk 的工作原理。</p>
       
@@ -706,7 +705,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="/images/react-native-android-share/landing.jpg" alt="Landing" width="80%"></p>
+        <p><img src="/images/react-native-android-share/landing.jpg" alt="Landing" width="80%"/></p>
 <p>有这样一个应用场景：</p>
 <p>在一个 Android 的 App 中，我们将一个文件下载到 App 中以后，通过点击一个分享按钮，将这个文件分享到本机已经安装了的其他 App 中。</p>
 <p>这个场景涉及到<code>下载</code>和<code>分享</code>两个步骤。</p>
@@ -773,7 +772,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="/images/2016-summary/landing.jpg" alt="Landing" width="80%"></p>
+        <p><img src="/images/2016-summary/landing.jpg" alt="Landing" width="80%"/></p>
 <p>岁月是把杀猪刀，每每到年末被它碾压的感觉异常强烈。</p>
 <p>所以决定来立一个Flag，记下今年的主要一些大事。<br>
       

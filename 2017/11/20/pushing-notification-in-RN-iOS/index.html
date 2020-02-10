@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>基于 react-native-fcm 的消息推送 - iOS（一） | GraceHan Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="消息推送在 App 中很常用，那么在 React Native 中怎样来集成消息推送呢？Google 推出的 Firebase Cloud Messaging 是用来做消息推送的，不过在中国国内使用时需要安装 Google Service 。 阅读本文时，你需要知道以下几个概念：  Firebase Cloud Messaging：Firebase 的消息推送服务，是 GCM 的 升级版，是 A">
-<meta name="keywords" content="PushNotification">
+  <meta name="description" content="消息推送在 App 中很常用，那么在 React Native 中怎样来集成消息推送呢？Google 推出的 Firebase Cloud Messaging 是用来做消息推送的，不过在中国国内使用时需要安装 Google Service 。
+阅读本文时，你需要知道以下几个概念：
+
+Firebase Cloud Messaging：Firebase 的消息推送服务，是 GCM 的 升级版，是 A">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于 react-native-fcm 的消息推送 - iOS（一）">
 <meta property="og:url" content="http://hanpanpan200.github.io/2017/11/20/pushing-notification-in-RN-iOS/index.html">
 <meta property="og:site_name" content="GraceHan Blog">
-<meta property="og:description" content="消息推送在 App 中很常用，那么在 React Native 中怎样来集成消息推送呢？Google 推出的 Firebase Cloud Messaging 是用来做消息推送的，不过在中国国内使用时需要安装 Google Service 。 阅读本文时，你需要知道以下几个概念：  Firebase Cloud Messaging：Firebase 的消息推送服务，是 GCM 的 升级版，是 A">
-<meta property="og:locale" content="en">
+<meta property="og:description" content="消息推送在 App 中很常用，那么在 React Native 中怎样来集成消息推送呢？Google 推出的 Firebase Cloud Messaging 是用来做消息推送的，不过在中国国内使用时需要安装 Google Service 。
+阅读本文时，你需要知道以下几个概念：
+
+Firebase Cloud Messaging：Firebase 的消息推送服务，是 GCM 的 升级版，是 A">
 <meta property="og:image" content="http://hanpanpan200.github.io/images/pushing-notification-in-RN/landing.jpg">
 <meta property="og:image" content="http://hanpanpan200.github.io/images/pushing-notification-in-RN/certificate.png">
 <meta property="og:image" content="http://hanpanpan200.github.io/images/pushing-notification-in-RN/create-certificate.png">
@@ -25,7 +29,10 @@
 <meta property="og:updated_time" content="2020-02-10T14:53:17.238Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于 react-native-fcm 的消息推送 - iOS（一）">
-<meta name="twitter:description" content="消息推送在 App 中很常用，那么在 React Native 中怎样来集成消息推送呢？Google 推出的 Firebase Cloud Messaging 是用来做消息推送的，不过在中国国内使用时需要安装 Google Service 。 阅读本文时，你需要知道以下几个概念：  Firebase Cloud Messaging：Firebase 的消息推送服务，是 GCM 的 升级版，是 A">
+<meta name="twitter:description" content="消息推送在 App 中很常用，那么在 React Native 中怎样来集成消息推送呢？Google 推出的 Firebase Cloud Messaging 是用来做消息推送的，不过在中国国内使用时需要安装 Google Service 。
+阅读本文时，你需要知道以下几个概念：
+
+Firebase Cloud Messaging：Firebase 的消息推送服务，是 GCM 的 升级版，是 A">
 <meta name="twitter:image" content="http://hanpanpan200.github.io/images/pushing-notification-in-RN/landing.jpg">
   
     <link rel="alternative" href="/atom.xml" title="GraceHan Blog" type="application/atom+xml">
@@ -35,7 +42,7 @@
   
   <link rel="stylesheet" href="/css/style.css">
 </head>
-</html>
+
 <body>
   <div id="container">
     <div class="left-col">
@@ -255,26 +262,26 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p><img src="/images/pushing-notification-in-RN/landing.jpg" alt="landing" width="80%"></p>
-<p>消息推送在 App 中很常用，那么在 React Native 中怎样来集成消息推送呢？Google 推出的 <a href="https://firebase.google.com/docs/cloud-messaging/?hl=zh-cn" target="_blank" rel="noopener">Firebase Cloud Messaging</a> 是用来做消息推送的，不过在中国国内使用时需要安装 Google Service 。</p>
+<p>消息推送在 App 中很常用，那么在 React Native 中怎样来集成消息推送呢？Google 推出的 <a href="https://firebase.google.com/docs/cloud-messaging/?hl=zh-cn" target="_blank" rel="external">Firebase Cloud Messaging</a> 是用来做消息推送的，不过在中国国内使用时需要安装 Google Service 。</p>
 <p>阅读本文时，你需要知道以下几个概念：</p>
 <ol>
-<li><a href="https://firebase.google.com/docs/cloud-messaging/?hl=zh-cn" target="_blank" rel="noopener">Firebase Cloud Messaging</a>：Firebase 的消息推送服务，是 <a href="https://developers.google.com/cloud-messaging/" target="_blank" rel="noopener">GCM</a> 的 升级版，是 Android 消息推送的新方案，并且其在背后集成了 Apple 的 APNs 服务, 因此开发者可以使用它提供的接口向 iOS 和 Android 设备推送消息。</li>
-<li><a href="https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/APNSOverview.html#//apple_ref/doc/uid/TP40008194-CH8-SW1" target="_blank" rel="noopener">APNs</a>: Apple 的 APNs 服务是消息推送功能的核心，开发者可以使用它提供的一系列接口向 iOS App 推送消息。</li>
+<li><a href="https://firebase.google.com/docs/cloud-messaging/?hl=zh-cn" target="_blank" rel="external">Firebase Cloud Messaging</a>：Firebase 的消息推送服务，是 <a href="https://developers.google.com/cloud-messaging/" target="_blank" rel="external">GCM</a> 的 升级版，是 Android 消息推送的新方案，并且其在背后集成了 Apple 的 APNs 服务, 因此开发者可以使用它提供的接口向 iOS 和 Android 设备推送消息。</li>
+<li><a href="https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/APNSOverview.html#//apple_ref/doc/uid/TP40008194-CH8-SW1" target="_blank" rel="external">APNs</a>: Apple 的 APNs 服务是消息推送功能的核心，开发者可以使用它提供的一系列接口向 iOS App 推送消息。</li>
 </ol>
-<p><a href="https://github.com/evollu/react-native-fcm" target="_blank" rel="noopener">react-native-fcm</a> 是 <a href="https://firebase.google.com/docs/cloud-messaging/?hl=zh-cn" target="_blank" rel="noopener">Firebase Cloud Messaging</a> 的 React Native 插件，将其集成到 React Native 项目中时，需要完成 iOS 和 Android 项目中的消息推送配置后，才可成功向对应的平台成功推送消息。本文属于 <a href="http://hanpanpan200.github.io/tags/PushNotification/">基于 react-native-fcm 的消息推送</a> 系列文档的第一篇，主要介绍基于 react-native-fcm 的 iOS 消息推送配置。</p>
+<p><a href="https://github.com/evollu/react-native-fcm" target="_blank" rel="external">react-native-fcm</a> 是 <a href="https://firebase.google.com/docs/cloud-messaging/?hl=zh-cn" target="_blank" rel="external">Firebase Cloud Messaging</a> 的 React Native 插件，将其集成到 React Native 项目中时，需要完成 iOS 和 Android 项目中的消息推送配置后，才可成功向对应的平台成功推送消息。本文属于 <a href="http://hanpanpan200.github.io/tags/PushNotification/">基于 react-native-fcm 的消息推送</a> 系列文档的第一篇，主要介绍基于 react-native-fcm 的 iOS 消息推送配置。</p>
 <a id="more"></a>
-<h2 id="Apple-配置"><a href="#Apple-配置" class="headerlink" title="Apple 配置"></a>Apple 配置</h2><p>FCM 需要调用 APNs 的 API 从而向 iOS App 推送服务。那么 FCM 与 APNs 是怎样沟通的呢？APNs 提供了<a href="https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/CommunicatingwithAPNs.html#//apple_ref/doc/uid/TP40008194-CH11-SW1" target="_blank" rel="noopener">两种连接</a>方式：Provider Authentication Tokens 和 APNs Provider Certificates。</p>
+<h2 id="Apple-配置"><a href="#Apple-配置" class="headerlink" title="Apple 配置"></a>Apple 配置</h2><p>FCM 需要调用 APNs 的 API 从而向 iOS App 推送服务。那么 FCM 与 APNs 是怎样沟通的呢？APNs 提供了<a href="https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/CommunicatingwithAPNs.html#//apple_ref/doc/uid/TP40008194-CH11-SW1" target="_blank" rel="external">两种连接</a>方式：Provider Authentication Tokens 和 APNs Provider Certificates。</p>
 <p>下面对这两种方式做下简单对比。</p>
 <h3 id="APNs-Provider-Certificates"><a href="#APNs-Provider-Certificates" class="headerlink" title="APNs Provider Certificates"></a>APNs Provider Certificates</h3><p>配置方式：</p>
 <ul>
-<li>进入<a href="https://developer.apple.com/account/ios/certificate/" target="_blank" rel="noopener">Certificates, Identifiers &amp; Profiles</a> 页面。</li>
+<li>进入<a href="https://developer.apple.com/account/ios/certificate/" target="_blank" rel="external">Certificates, Identifiers &amp; Profiles</a> 页面。</li>
 <li>选中 AppID -&gt; 选中对应的 AppID -&gt; Edit -&gt; Push notifications<br><img src="/images/pushing-notification-in-RN/certificate.png" alt="certificate" width="80%"></li>
 <li>Create Certificate…(development or production)<br><img src="/images/pushing-notification-in-RN/create-certificate.png" alt="create-certificate" width="80%"></li>
 <li>Add certificate to App ID</li>
 </ul>
 <h3 id="Provider-Authentication-Tokens"><a href="#Provider-Authentication-Tokens" class="headerlink" title="Provider Authentication Tokens"></a>Provider Authentication Tokens</h3><p>配置方式：</p>
 <ul>
-<li>进入<a href="https://developer.apple.com/account/ios/certificate/" target="_blank" rel="noopener">Certificates, Identifiers &amp; Profiles</a> 页面。</li>
+<li>进入<a href="https://developer.apple.com/account/ios/certificate/" target="_blank" rel="external">Certificates, Identifiers &amp; Profiles</a> 页面。</li>
 <li>选中 Keys</li>
 <li>Create new key -&gt; 输入 name 并选中 APNs -&gt; 下一步<br><img src="/images/pushing-notification-in-RN/create-key.png" alt="create-key" width="80%"></li>
 <li>下载 Key file 并将其保存在安全的地方（注意，此文件只提供一次下载机会，请妥善保存）</li>
@@ -284,7 +291,7 @@
 <li>一经配置，有效期为一年，过期之后，需重新配置。</li>
 <li>每个 App 独立配置，可为一个 App 配置不同环境下的 certificate，例如 development, production 等。</li>
 <li>在 Apple 中配置好后，需将 certificate 导出，分别上传至 Firebase 供推送消息使用。</li>
-<li>在 Apple 中配置好后，需将 certificate 上传至 <a href="https://en.wikipedia.org/wiki/Continuous_integration" target="_blank" rel="noopener">CI/CD</a> 服务器供打包使用。</li>
+<li>在 Apple 中配置好后，需将 certificate 上传至 <a href="https://en.wikipedia.org/wiki/Continuous_integration" target="_blank" rel="external">CI/CD</a> 服务器供打包使用。</li>
 </ol>
 <p><strong>Provider Authentication Tokens 的方式：</strong></p>
 <blockquote>
@@ -292,12 +299,12 @@
 </blockquote>
 <ol>
 <li>APNs auth key 一经配置，可供当前开发者账号下所有的App使用。</li>
-<li>在 Apple 中配置好之后，只需上传至 Firebase 即可使用，在 <a href="https://en.wikipedia.org/wiki/Continuous_integration" target="_blank" rel="noopener">CI/CD</a> 服务器中，不需额外配置。</li>
+<li>在 Apple 中配置好之后，只需上传至 Firebase 即可使用，在 <a href="https://en.wikipedia.org/wiki/Continuous_integration" target="_blank" rel="external">CI/CD</a> 服务器中，不需额外配置。</li>
 </ol>
 <p>鉴于 <code>APNs auth key</code> 的方式较为简单，且是目前 Firebase 所推荐的做法。因此我们项目中也采取的此种方式。</p>
 <p>通过这一步，我们拿到了 Firebase 和 APNs 安全通信的 <code>APNs Authentication key</code> 。</p>
 <h2 id="Firebase-中-iOS-App-的配置"><a href="#Firebase-中-iOS-App-的配置" class="headerlink" title="Firebase 中 iOS App 的配置"></a>Firebase 中 iOS App 的配置</h2><ol>
-<li>在 <a href="https://console.firebase.google.com/u/0/" target="_blank" rel="noopener">Firebase Console</a> 中创建项目。</li>
+<li>在 <a href="https://console.firebase.google.com/u/0/" target="_blank" rel="external">Firebase Console</a> 中创建项目。</li>
 <li>进入 1 创建的项目，然后点击 <code>Add Firebase to your iOS app</code>。</li>
 <li>填写 <code>iOS bundle ID</code>（务必与你 iOS 工程中的 bundle id 保持一致）。</li>
 <li>点击 REGISTER APP 按钮。</li>
@@ -309,7 +316,7 @@
 <p>通过这一步，我们完成了 Firebase 中 iOS 项目的配置，FCM 已经可以成功与 APNs 通信了。</p>
 <h2 id="iOS-工程配置"><a href="#iOS-工程配置" class="headerlink" title="iOS 工程配置"></a>iOS 工程配置</h2><p>在上一步中，我们已经可以在 Firebase console 中手动推送消息了，那么当消息发送出来之后，App 为什么还没有接受到它呢？不要着急，我们还需要在 iOS 项目中做些配置，它们主要分为以下两点：</p>
 <ol>
-<li>依赖安装和系统事件处理<br>根据 <a href="https://github.com/evollu/react-native-fcm#ios-configuration" target="_blank" rel="noopener">react-native-fcm配置说明</a> ，我们需要在 iOS 项目中用 cocoapods 安装 Firebase 依赖，随后在 <code>AppDelegate.m</code> 和 <code>AppDelegate.h</code> 的系统事件处理中，修改相应的事件处理逻辑。</li>
+<li>依赖安装和系统事件处理<br>根据 <a href="https://github.com/evollu/react-native-fcm#ios-configuration" target="_blank" rel="external">react-native-fcm配置说明</a> ，我们需要在 iOS 项目中用 cocoapods 安装 Firebase 依赖，随后在 <code>AppDelegate.m</code> 和 <code>AppDelegate.h</code> 的系统事件处理中，修改相应的事件处理逻辑。</li>
 <li>Capabilities设置<br>每当用户在设备上打开 App 时，系统都会自动在你的 App 和 APNs 之间建立连接，此时还需要在项目中进行以下配置，你的设备才可以成功收到推送消息了。你需要在 iOS 项目 -&gt; Capabilities 中进行以下设置：</li>
 </ol>
 <ul>
@@ -323,7 +330,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">class App extends Component &#123;</span><br><span class="line">  componentDidMount() &#123;</span><br><span class="line">    FCM.requestPermissions().then(()=&gt;console.log(&apos;granted&apos;)).catch(()=&gt;console.log(&apos;notification permission rejected&apos;));</span><br><span class="line">    </span><br><span class="line">    FCM.getFCMToken().then(token =&gt; &#123;</span><br><span class="line">      console.log(token)</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在组件 <code>componentDidMount</code> 通过调动 <code>FCM.getFCMToken()</code> 可以完成 FCM 服务的注册。</p>
 <h2 id="在-Firebase-Console-中手动推送消息"><a href="#在-Firebase-Console-中手动推送消息" class="headerlink" title="在 Firebase Console 中手动推送消息"></a>在 Firebase Console 中手动推送消息</h2><p>FCM 支持向安装了 App 的所有设备广播消息、向指定设备推送消息 和 向注册了某一 Topic 的 App 发送消息。在此我们主要介绍怎样在Firebase Console 手动广播消息和向指定设备推送消息。</p>
-<h3 id="广播消息"><a href="#广播消息" class="headerlink" title="广播消息"></a>广播消息</h3><p>注册成功之后，你可以在 <a href="https://console.firebase.google.com/u/0/" target="_blank" rel="noopener">Firebase Console</a> 中广播消息到 iOS 平台的所有 App。在手动发送消息时，需要：</p>
+<h3 id="广播消息"><a href="#广播消息" class="headerlink" title="广播消息"></a>广播消息</h3><p>注册成功之后，你可以在 <a href="https://console.firebase.google.com/u/0/" target="_blank" rel="external">Firebase Console</a> 中广播消息到 iOS 平台的所有 App。在手动发送消息时，需要：</p>
 <ul>
 <li>选中 Target</li>
 <li>选中 User segment</li>

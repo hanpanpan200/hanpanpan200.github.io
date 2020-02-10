@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>React Native 在 Android 中下载文件并分享 | GraceHan Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="有这样一个应用场景： 在一个 Android 的 App 中，我们将一个文件下载到 App 中以后，通过点击一个分享按钮，将这个文件分享到本机已经安装了的其他 App 中。 这个场景涉及到下载和分享两个步骤。">
-<meta name="keywords" content="Share">
+  <meta name="description" content="有这样一个应用场景：
+在一个 Android 的 App 中，我们将一个文件下载到 App 中以后，通过点击一个分享按钮，将这个文件分享到本机已经安装了的其他 App 中。
+这个场景涉及到下载和分享两个步骤。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="React Native 在 Android 中下载文件并分享">
 <meta property="og:url" content="http://hanpanpan200.github.io/2017/02/08/react-native-android-share/index.html">
 <meta property="og:site_name" content="GraceHan Blog">
-<meta property="og:description" content="有这样一个应用场景： 在一个 Android 的 App 中，我们将一个文件下载到 App 中以后，通过点击一个分享按钮，将这个文件分享到本机已经安装了的其他 App 中。 这个场景涉及到下载和分享两个步骤。">
-<meta property="og:locale" content="en">
+<meta property="og:description" content="有这样一个应用场景：
+在一个 Android 的 App 中，我们将一个文件下载到 App 中以后，通过点击一个分享按钮，将这个文件分享到本机已经安装了的其他 App 中。
+这个场景涉及到下载和分享两个步骤。">
 <meta property="og:image" content="http://hanpanpan200.github.io/images/react-native-android-share/landing.jpg">
 <meta property="og:image" content="http://hanpanpan200.github.io/images/react-native-android-share/home.jpg">
 <meta property="og:image" content="http://hanpanpan200.github.io/images/react-native-android-share/MainStorage.jpg">
@@ -25,7 +27,9 @@
 <meta property="og:updated_time" content="2020-02-10T14:53:17.238Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="React Native 在 Android 中下载文件并分享">
-<meta name="twitter:description" content="有这样一个应用场景： 在一个 Android 的 App 中，我们将一个文件下载到 App 中以后，通过点击一个分享按钮，将这个文件分享到本机已经安装了的其他 App 中。 这个场景涉及到下载和分享两个步骤。">
+<meta name="twitter:description" content="有这样一个应用场景：
+在一个 Android 的 App 中，我们将一个文件下载到 App 中以后，通过点击一个分享按钮，将这个文件分享到本机已经安装了的其他 App 中。
+这个场景涉及到下载和分享两个步骤。">
 <meta name="twitter:image" content="http://hanpanpan200.github.io/images/react-native-android-share/landing.jpg">
   
     <link rel="alternative" href="/atom.xml" title="GraceHan Blog" type="application/atom+xml">
@@ -35,7 +39,7 @@
   
   <link rel="stylesheet" href="/css/style.css">
 </head>
-</html>
+
 <body>
   <div id="container">
     <div class="left-col">
@@ -264,7 +268,7 @@
 <p>下面我们就来解答这个问题。</p>
 <h2 id="把从App中下载的文件存在哪里？"><a href="#把从App中下载的文件存在哪里？" class="headerlink" title="把从App中下载的文件存在哪里？"></a>把从App中下载的文件存在哪里？</h2><p>首先第一个问题：在 Android 中，App 一般会将下载的文件存放在什么路径？</p>
 <p>为了解决这个问题，首先需要了解 Android Storage 。 Android 中有 Internal Storage 与 External Storage 。</p>
-<p>从这篇<a href="http://blog.imallen.wang/blog/2015/09/24/internal-vs-external-storage/" target="_blank" rel="noopener">博客</a>中我们了解到：</p>
+<p>从这篇<a href="http://blog.imallen.wang/blog/2015/09/24/internal-vs-external-storage/" target="_blank" rel="external">博客</a>中我们了解到：</p>
 <blockquote>
 <p>Internal storage 和 private external storage 对于 app 来说都是 private 的，即其他 app 无权访问。</p>
 </blockquote>
@@ -289,8 +293,8 @@
 <p><img src="/images/react-native-android-share/home.jpg" alt="File-System-Home" width="40%"></p>
 <p>然后打开 <code>Main Storage</code> 文件夹可以看到这里显示了手机上很多 App 的目录。比如说，当我们打开 <code>netease</code> 就可以看到我们在<code>网易云音乐</code>中下载的一些音乐或者MV文件。<br>于是我们可以知道，我们当前需要的做的，就是在 Public external storage 的根目录下，创建一个专属于自己App的文件夹，用来存放下载的文件。</p>
 <p><img src="/images/react-native-android-share/MainStorage.jpg" alt="Main-Storage" width="40%"></p>
-<h2 id="用React-Native的方式来实现在Android中下载并分享"><a href="#用React-Native的方式来实现在Android中下载并分享" class="headerlink" title="用React Native的方式来实现在Android中下载并分享"></a>用React Native的方式来实现在Android中下载并分享</h2><p>在 React Native 中，我们可以用 <a href="https://github.com/wkh237/react-native-fetch-blob" target="_blank" rel="noopener">react-native-fetch-blob</a>来处理下载，然后用 <a href="https://github.com/EstebanFuentealba/react-native-share" target="_blank" rel="noopener">react-native-share</a>来处理分享。</p>
-<p>Example代码地址： <a href="https://github.com/hanpanpan200/RN-android-download-share" target="_blank" rel="noopener">RN-android-download-share</a>。</p>
+<h2 id="用React-Native的方式来实现在Android中下载并分享"><a href="#用React-Native的方式来实现在Android中下载并分享" class="headerlink" title="用React Native的方式来实现在Android中下载并分享"></a>用React Native的方式来实现在Android中下载并分享</h2><p>在 React Native 中，我们可以用 <a href="https://github.com/wkh237/react-native-fetch-blob" target="_blank" rel="external">react-native-fetch-blob</a>来处理下载，然后用 <a href="https://github.com/EstebanFuentealba/react-native-share" target="_blank" rel="external">react-native-share</a>来处理分享。</p>
+<p>Example代码地址： <a href="https://github.com/hanpanpan200/RN-android-download-share" target="_blank" rel="external">RN-android-download-share</a>。</p>
 <p>Example的运行结果：</p>
 <p>1、 下载文件<br><img src="/images/react-native-android-share/download.gif" alt="download" width="40%"></p>
 <p>下载成功后，打开文件系统，在 <code>Main Storage</code> 目录下查看：此时已经创建了文件夹 <code>RNAndroidDownloadShare</code>，并且已将文件<code>Dropbox.pdf</code>保存在这个文件夹内。</p>

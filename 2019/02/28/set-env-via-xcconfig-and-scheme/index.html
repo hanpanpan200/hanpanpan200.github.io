@@ -1,18 +1,29 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>用 Xcode Configuration 和 Scheme 配置项目环境 | GraceHan Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="想象一个场景，我们正在开发一款支付系统，这个支付系统同时支持有Web版和原生的iOS APP版本。这个支付系统有三个环境：  dev: 调用支付的开发环境接口，并不会真的扣钱。 qa: 调用支付的测试环境接口，假的测试账户中的余额会发生变化。 production: 调用产品环境中的支付接口，账户余额和钱会真实发生变化。  对于 Web 版的系统，我可以在浏览器中打开三个窗口，然后依次输入不同环">
+  <meta name="description" content="想象一个场景，我们正在开发一款支付系统，这个支付系统同时支持有Web版和原生的iOS APP版本。这个支付系统有三个环境：
+
+dev: 调用支付的开发环境接口，并不会真的扣钱。
+qa: 调用支付的测试环境接口，假的测试账户中的余额会发生变化。
+production: 调用产品环境中的支付接口，账户余额和钱会真实发生变化。
+
+对于 Web 版的系统，我可以在浏览器中打开三个窗口，然后依次输入不同环">
 <meta property="og:type" content="article">
 <meta property="og:title" content="用 Xcode Configuration 和 Scheme 配置项目环境">
 <meta property="og:url" content="http://hanpanpan200.github.io/2019/02/28/set-env-via-xcconfig-and-scheme/index.html">
 <meta property="og:site_name" content="GraceHan Blog">
-<meta property="og:description" content="想象一个场景，我们正在开发一款支付系统，这个支付系统同时支持有Web版和原生的iOS APP版本。这个支付系统有三个环境：  dev: 调用支付的开发环境接口，并不会真的扣钱。 qa: 调用支付的测试环境接口，假的测试账户中的余额会发生变化。 production: 调用产品环境中的支付接口，账户余额和钱会真实发生变化。  对于 Web 版的系统，我可以在浏览器中打开三个窗口，然后依次输入不同环">
-<meta property="og:locale" content="en">
+<meta property="og:description" content="想象一个场景，我们正在开发一款支付系统，这个支付系统同时支持有Web版和原生的iOS APP版本。这个支付系统有三个环境：
+
+dev: 调用支付的开发环境接口，并不会真的扣钱。
+qa: 调用支付的测试环境接口，假的测试账户中的余额会发生变化。
+production: 调用产品环境中的支付接口，账户余额和钱会真实发生变化。
+
+对于 Web 版的系统，我可以在浏览器中打开三个窗口，然后依次输入不同环">
 <meta property="og:image" content="http://hanpanpan200.github.io/images/set-env-via-xcconfig-and-scheme/logo.svg">
 <meta property="og:image" content="http://hanpanpan200.github.io/images/set-env-via-xcconfig-and-scheme/1.gif">
 <meta property="og:image" content="http://hanpanpan200.github.io/images/set-env-via-xcconfig-and-scheme/2.gif">
@@ -24,7 +35,13 @@
 <meta property="og:updated_time" content="2020-02-10T14:53:17.239Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="用 Xcode Configuration 和 Scheme 配置项目环境">
-<meta name="twitter:description" content="想象一个场景，我们正在开发一款支付系统，这个支付系统同时支持有Web版和原生的iOS APP版本。这个支付系统有三个环境：  dev: 调用支付的开发环境接口，并不会真的扣钱。 qa: 调用支付的测试环境接口，假的测试账户中的余额会发生变化。 production: 调用产品环境中的支付接口，账户余额和钱会真实发生变化。  对于 Web 版的系统，我可以在浏览器中打开三个窗口，然后依次输入不同环">
+<meta name="twitter:description" content="想象一个场景，我们正在开发一款支付系统，这个支付系统同时支持有Web版和原生的iOS APP版本。这个支付系统有三个环境：
+
+dev: 调用支付的开发环境接口，并不会真的扣钱。
+qa: 调用支付的测试环境接口，假的测试账户中的余额会发生变化。
+production: 调用产品环境中的支付接口，账户余额和钱会真实发生变化。
+
+对于 Web 版的系统，我可以在浏览器中打开三个窗口，然后依次输入不同环">
 <meta name="twitter:image" content="http://hanpanpan200.github.io/images/set-env-via-xcconfig-and-scheme/logo.svg">
   
     <link rel="alternative" href="/atom.xml" title="GraceHan Blog" type="application/atom+xml">
@@ -34,7 +51,7 @@
   
   <link rel="stylesheet" href="/css/style.css">
 </head>
-</html>
+
 <body>
   <div id="container">
     <div class="left-col">
@@ -260,13 +277,13 @@
 <p>对于 iOS APP 呢？我们想要的其实是类似的，打开一台手机，我们可以同时安装三个APP：<code>PayExampleDev</code>，<code>PayExampleQA</code>，<code>PayExample</code> 然后可以切换APP来使用它们。</p>
 <p>那么怎样通过一个 iOS 工程打包出三个不同的 APP 呢？方法很多，本文我们就来介绍通过 <code>Xcode Configuration</code> 和 <code>Scheme</code> 的配置方式来实现。</p>
 <a id="more"></a>
-<h2 id="添加-Xcode-Configuration"><a href="#添加-Xcode-Configuration" class="headerlink" title="添加 Xcode Configuration"></a>添加 <a href="https://help.apple.com/xcode/mac/10.1/index.html?localePath=en.lproj#/dev745c5c974" target="_blank" rel="noopener">Xcode Configuration</a></h2><ul>
+<h2 id="添加-Xcode-Configuration"><a href="#添加-Xcode-Configuration" class="headerlink" title="添加 Xcode Configuration"></a>添加 <a href="https://help.apple.com/xcode/mac/10.1/index.html?localePath=en.lproj#/dev745c5c974" target="_blank" rel="external">Xcode Configuration</a></h2><ul>
 <li>新建 Group，命名为：Configuration</li>
 <li>在 Configuration 中新建不同环境下的 Configuration Settings file</li>
 </ul>
 <p>具体步骤如下图：<br><img src="/images/set-env-via-xcconfig-and-scheme/1.gif"></p>
 <h2 id="配置项目的-Configuration"><a href="#配置项目的-Configuration" class="headerlink" title="配置项目的 Configuration"></a>配置项目的 Configuration</h2><ul>
-<li>在不同的 Configuration file 中，配置需要的键值对，用于在项目中引用，具体配置，请参考 <a href="https://github.com/hanpanpan200/PayExample/blob/master/PayExample/Configuration/dev.xcconfig" target="_blank" rel="noopener">Demo源码</a></li>
+<li>在不同的 Configuration file 中，配置需要的键值对，用于在项目中引用，具体配置，请参考 <a href="https://github.com/hanpanpan200/PayExample/blob/master/PayExample/Configuration/dev.xcconfig" target="_blank" rel="external">Demo源码</a></li>
 <li>Project -&gt; Info -&gt; Configurations</li>
 <li>将 Configurations 配置为 Dev、QA、Prod，并配置对应的 Configuration File</li>
 </ul>

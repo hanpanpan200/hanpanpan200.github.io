@@ -1,24 +1,25 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>自定义 React Native 模块 | GraceHan Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="虽然 React Native 目前已经提供了很多常用的组件，但是在实际项目中，我们总会发现需求往往是这些常用组件所不能够满足的。比如说：图像识别模块、指纹识别模块等。这种模块大部分已经有了比较成熟的SDK，我们此时需要做的就是将已有的轮子，封装到 React Native 中来使用。 经过一些尝试和探索后，我终于找到了一个比较容易上手的封装 React Native 插件方案，希望能得到更多的">
-<meta name="keywords" content="Native Module For React Native">
+  <meta name="description" content="虽然 React Native 目前已经提供了很多常用的组件，但是在实际项目中，我们总会发现需求往往是这些常用组件所不能够满足的。比如说：图像识别模块、指纹识别模块等。这种模块大部分已经有了比较成熟的SDK，我们此时需要做的就是将已有的轮子，封装到 React Native 中来使用。
+经过一些尝试和探索后，我终于找到了一个比较容易上手的封装 React Native 插件方案，希望能得到更多的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="自定义 React Native 模块">
 <meta property="og:url" content="http://hanpanpan200.github.io/2017/07/16/create-custom-native-modules-in-RN/index.html">
 <meta property="og:site_name" content="GraceHan Blog">
-<meta property="og:description" content="虽然 React Native 目前已经提供了很多常用的组件，但是在实际项目中，我们总会发现需求往往是这些常用组件所不能够满足的。比如说：图像识别模块、指纹识别模块等。这种模块大部分已经有了比较成熟的SDK，我们此时需要做的就是将已有的轮子，封装到 React Native 中来使用。 经过一些尝试和探索后，我终于找到了一个比较容易上手的封装 React Native 插件方案，希望能得到更多的">
-<meta property="og:locale" content="en">
+<meta property="og:description" content="虽然 React Native 目前已经提供了很多常用的组件，但是在实际项目中，我们总会发现需求往往是这些常用组件所不能够满足的。比如说：图像识别模块、指纹识别模块等。这种模块大部分已经有了比较成熟的SDK，我们此时需要做的就是将已有的轮子，封装到 React Native 中来使用。
+经过一些尝试和探索后，我终于找到了一个比较容易上手的封装 React Native 插件方案，希望能得到更多的">
 <meta property="og:image" content="http://hanpanpan200.github.io/images/create-custom-native-modules-in-RN/landing.jpeg">
 <meta property="og:updated_time" content="2020-02-10T14:53:17.237Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="自定义 React Native 模块">
-<meta name="twitter:description" content="虽然 React Native 目前已经提供了很多常用的组件，但是在实际项目中，我们总会发现需求往往是这些常用组件所不能够满足的。比如说：图像识别模块、指纹识别模块等。这种模块大部分已经有了比较成熟的SDK，我们此时需要做的就是将已有的轮子，封装到 React Native 中来使用。 经过一些尝试和探索后，我终于找到了一个比较容易上手的封装 React Native 插件方案，希望能得到更多的">
+<meta name="twitter:description" content="虽然 React Native 目前已经提供了很多常用的组件，但是在实际项目中，我们总会发现需求往往是这些常用组件所不能够满足的。比如说：图像识别模块、指纹识别模块等。这种模块大部分已经有了比较成熟的SDK，我们此时需要做的就是将已有的轮子，封装到 React Native 中来使用。
+经过一些尝试和探索后，我终于找到了一个比较容易上手的封装 React Native 插件方案，希望能得到更多的">
 <meta name="twitter:image" content="http://hanpanpan200.github.io/images/create-custom-native-modules-in-RN/landing.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="GraceHan Blog" type="application/atom+xml">
@@ -28,7 +29,7 @@
   
   <link rel="stylesheet" href="/css/style.css">
 </head>
-</html>
+
 <body>
   <div id="container">
     <div class="left-col">
@@ -286,20 +287,20 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">react-native-create-library AwesomeLib</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>上述命令会创建一个独立的工程，文件的目录结构为：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">-android</span><br><span class="line">-ios</span><br><span class="line">-windows</span><br><span class="line">-index.js</span><br><span class="line">-package.json</span><br><span class="line">-README.md</span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
 <p>当我们不指定 <code>--platforms</code> 参数时，会默认创建包含 <code>android</code>, <code>ios</code> 和 <code>windows</code> 三个平台的工程。</p>
-<p><a href="https://github.com/frostney/react-native-create-library" target="_blank" rel="noopener">create_react_native_library</a> 与 <code>react-native new-library</code> 相比，它的优势在于：</p>
+<p><a href="https://github.com/frostney/react-native-create-library" target="_blank" rel="external">create_react_native_library</a> 与 <code>react-native new-library</code> 相比，它的优势在于：</p>
 <ol>
 <li>不依赖于现有的 RN 项目，作为独立项目进行开发、发布和维护。</li>
 <li>兼容 iOS, Android 和 Windows平台，支持通过参数指定 <code>platforms</code> 和一些常用的参数比如： <code>android package id</code> </li>
 <li>封装了 <code>react-native link</code> 的逻辑，执行 <code>react-native link</code> 即可完成对应平台的依赖设置。</li>
 </ol>
 <p>它的局限在于：非官方出品，需关注是否与最新的 React Native 版本兼容。</p>
-<p>目前 <code>create_react_native_library</code> 支持最新的<a href="mailto:`react-native@0.51" target="_blank" rel="noopener">`react-native@0.51</a>`。</p>
+<p>目前 <code>create_react_native_library</code> 支持最新的<a href="mailto:`react-native@0.51" target="_blank" rel="external">`react-native@0.51</a>`。</p>
 <h2 id="调试和测试"><a href="#调试和测试" class="headerlink" title="调试和测试"></a>调试和测试</h2><p>当我们用 create_react_native_library 创建了独立的自定义组件库之后，我们怎样去调试这个新开发的 npm 模块呢？</p>
 <p>做法有很多：</p>
 <ol>
 <li>在 npm 上 publish 一个 beta 版本，然后在项目中反复：安装 npm beta package -&gt; 微调 -&gt; 安装</li>
 <li>在本地用相对路径安装，然后反复进行： 安装本地依赖 -&gt; 微调 -&gt; 安装</li>
-<li><a href="https://yarnpkg.com/lang/zh-hans/docs/cli/link/" target="_blank" rel="noopener">yarn-link</a></li>
+<li><a href="https://yarnpkg.com/lang/zh-hans/docs/cli/link/" target="_blank" rel="external">yarn-link</a></li>
 </ol>
 <p>通过 <code>yarn-link</code> 的方式来进行调试最为方便。下面举例说明：</p>
 <blockquote>
@@ -317,7 +318,7 @@
 <p>在完成了本地的开发和调试之后，我们就可以将这个自定义组件发布到 npm 了。</p>
 <h2 id="发布组件到-npm"><a href="#发布组件到-npm" class="headerlink" title="发布组件到 npm"></a>发布组件到 npm</h2><p>发布组件到 npm， 需要进行以下几步：</p>
 <ol>
-<li>注册 <a href="https://www.npmjs.com/" target="_blank" rel="noopener">npm</a> 。</li>
+<li>注册 <a href="https://www.npmjs.com/" target="_blank" rel="external">npm</a> 。</li>
 <li>在项目目录下，执行 npm adduser， 随后根据提示，输入用户信息。显示 <code>Logged in as YourUserName on https://registry.npmjs.org/</code> 后，即可进行发布。</li>
 <li>执行 npm publish ，发布包到 npm 。</li>
 </ol>

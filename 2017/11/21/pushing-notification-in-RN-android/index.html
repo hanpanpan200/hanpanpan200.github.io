@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>基于 react-native-fcm 的消息推送 - Android（二） | GraceHan Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="在上篇文章中，我们提到了 怎样在 iOS 中集成 react-natiave-fcm，今天我们主要讨论 Android 中的配置和注意事项。">
-<meta name="keywords" content="PushNotification">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于 react-native-fcm 的消息推送 - Android（二）">
 <meta property="og:url" content="http://hanpanpan200.github.io/2017/11/21/pushing-notification-in-RN-android/index.html">
 <meta property="og:site_name" content="GraceHan Blog">
 <meta property="og:description" content="在上篇文章中，我们提到了 怎样在 iOS 中集成 react-natiave-fcm，今天我们主要讨论 Android 中的配置和注意事项。">
-<meta property="og:locale" content="en">
 <meta property="og:image" content="http://hanpanpan200.github.io/images/pushing-notification-in-RN/android-landing.jpeg">
 <meta property="og:updated_time" content="2020-02-10T14:53:17.238Z">
 <meta name="twitter:card" content="summary">
@@ -28,7 +26,7 @@
   
   <link rel="stylesheet" href="/css/style.css">
 </head>
-</html>
+
 <body>
   <div id="container">
     <div class="left-col">
@@ -252,7 +250,7 @@
 <a id="more"></a>
 <h2 id="Firebase-中-Android-App-的配置"><a href="#Firebase-中-Android-App-的配置" class="headerlink" title="Firebase 中 Android App 的配置"></a>Firebase 中 Android App 的配置</h2><p>在 Android 平台中配置 Pushing Notification 远比 Apple 简单，并不需要在 developer 账号中做特殊的配置。<br>想要调用 FCM 服务向 Android 设备推送消息，我们需要在 Firebase 中配置对应的 Android App。步骤如下：</p>
 <ol>
-<li>在 <a href="https://console.firebase.google.com/u/0/" target="_blank" rel="noopener">Firebase Console</a> 中创建项目（如项目已创建，可省略此步）。</li>
+<li>在 <a href="https://console.firebase.google.com/u/0/" target="_blank" rel="external">Firebase Console</a> 中创建项目（如项目已创建，可省略此步）。</li>
 <li>进入 1 创建的项目，然后点击 <code>Add Firebase to your Android app</code>。</li>
 <li>填写 <code>android package name</code>（务必与你 Android 工程中的 applicationId 保持一致，查找时，在 <code>android/app/build.gradle</code> 文件中搜索 <code>applicationId</code>）。</li>
 <li>点击 REGISTER APP 按钮。</li>
@@ -263,7 +261,7 @@
 <p>通过这一步，我们完成了 Firebase 中 Android 项目的配置，FCM 已经可以将消息推送到 Android 设备了。</p>
 <h2 id="Android-工程配置"><a href="#Android-工程配置" class="headerlink" title="Android 工程配置"></a>Android 工程配置</h2><p>在上一步中，我们已经可以在 Firebase console 中手动推送消息了，那么当消息发送出来之后，Android App 怎样才能接收推送的消息呢？我们还需要以下几步：</p>
 <ul>
-<li><p>我们需要根据 <a href="https://github.com/evollu/react-native-fcm#android-configuration" target="_blank" rel="noopener">react-native-fcm</a> 的文档，完成 Android 项目中的配置。</p>
+<li><p>我们需要根据 <a href="https://github.com/evollu/react-native-fcm#android-configuration" target="_blank" rel="external">react-native-fcm</a> 的文档，完成 Android 项目中的配置。</p>
 </li>
 <li><p>根据 <a href="http://hanpanpan200.github.io/2017/11/20/pushing-notification-in-RN-iOS">上篇文章</a> ，在组件中注册 FCM 服务。</p>
 </li>
@@ -271,7 +269,7 @@
 </ul>
 <p>你以为就这样 happy ending 了吗？<br>事实是：你完成了 Android 中的配置，欢欣雀跃地从 Firebase Console 手动推送了一条消息。但是消息来了之后，你发现有什么不对劲。。嗯，为什么通知栏里 notification 的图标变成了白色小方块？</p>
 <h2 id="白色小方块的-notification-icon-问题"><a href="#白色小方块的-notification-icon-问题" class="headerlink" title="白色小方块的 notification icon 问题"></a>白色小方块的 notification icon 问题</h2><p>原因是因为 Android 5.0 之后，google 统一了 notification icon 的风格，icon 的颜色只能用透明色和白色，如果你的 icon 中有彩色，那么系统就会认为此图标为一个无效的图标，并用一个白色小方块替代你的 notification icon。</p>
-<p>解决这个问题的 <a href="https://stackoverflow.com/questions/28387602/notification-bar-icon-turns-white-in-android-5-lollipop/28387744#28387744" target="_blank" rel="noopener">workaround</a> 有很多，思路有：</p>
+<p>解决这个问题的 <a href="https://stackoverflow.com/questions/28387602/notification-bar-icon-turns-white-in-android-5-lollipop/28387744#28387744" target="_blank" rel="external">workaround</a> 有很多，思路有：</p>
 <ul>
 <li>根据 <code>targetSdk</code> 动态设置 icon 的颜色（需要在 Android 原生项目中，用 Java 处理）</li>
 <li>在 <code>build.gradle</code> 中设置 <code>targetSdkVersion</code> 为 20</li>

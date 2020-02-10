@@ -1,24 +1,31 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>Using Icons in React Native | GraceHan Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在 React Native 开发中，我们常常会有下面这样的需求：  需要在 App 中显示图标 图标需要兼容不同设备的分辨率（包括 Android 和 iOS 两个平台）">
-<meta name="keywords" content="SVG">
+  <meta name="description" content="在 React Native 开发中，我们常常会有下面这样的需求：
+
+需要在 App 中显示图标
+图标需要兼容不同设备的分辨率（包括 Android 和 iOS 两个平台）">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Using Icons in React Native">
 <meta property="og:url" content="http://hanpanpan200.github.io/2017/07/12/icons-in-rn/index.html">
 <meta property="og:site_name" content="GraceHan Blog">
-<meta property="og:description" content="在 React Native 开发中，我们常常会有下面这样的需求：  需要在 App 中显示图标 图标需要兼容不同设备的分辨率（包括 Android 和 iOS 两个平台）">
-<meta property="og:locale" content="en">
+<meta property="og:description" content="在 React Native 开发中，我们常常会有下面这样的需求：
+
+需要在 App 中显示图标
+图标需要兼容不同设备的分辨率（包括 Android 和 iOS 两个平台）">
 <meta property="og:image" content="http://hanpanpan200.github.io/images/icons-in-rn/landing.jpg">
 <meta property="og:updated_time" content="2020-02-10T14:53:17.238Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Using Icons in React Native">
-<meta name="twitter:description" content="在 React Native 开发中，我们常常会有下面这样的需求：  需要在 App 中显示图标 图标需要兼容不同设备的分辨率（包括 Android 和 iOS 两个平台）">
+<meta name="twitter:description" content="在 React Native 开发中，我们常常会有下面这样的需求：
+
+需要在 App 中显示图标
+图标需要兼容不同设备的分辨率（包括 Android 和 iOS 两个平台）">
 <meta name="twitter:image" content="http://hanpanpan200.github.io/images/icons-in-rn/landing.jpg">
   
     <link rel="alternative" href="/atom.xml" title="GraceHan Blog" type="application/atom+xml">
@@ -28,7 +35,7 @@
   
   <link rel="stylesheet" href="/css/style.css">
 </head>
-</html>
+
 <body>
   <div id="container">
     <div class="left-col">
@@ -268,8 +275,8 @@
 <li>同一份设计，分别生成多个不同分辨率的图片文件，给文件命名时后缀加上 <code>@2x</code> 和 <code>@3x</code>（最终在加载图标时，系统会根据当前设备的分辨率自动加载其对应分辨率的图片文件）</li>
 </ol>
 <p>比如说，home 图标最终会在本地存三个文件：</p>
-<p><code>home.png</code>, <a href="mailto:`home@2x.png" target="_blank" rel="noopener">`home@2x.png</a><code>和</code><a href="mailto:home@3x.png" target="_blank" rel="noopener">home@3x.png</a>`</p>
-<p>React Native 的 <a href="http://facebook.github.io/react-native/releases/0.46/docs/images.html#static-image-resources" target="_blank" rel="noopener">Image</a> 组件提供了对这种用法的支持，只需要将资源文件都放入 <code>img</code> 文件夹下，然后使用时将 Image 组件的 <code>source</code>属性设置为对应的路径即可：</p>
+<p><code>home.png</code>, <a href="mailto:`home@2x.png" target="_blank" rel="external">`home@2x.png</a><code>和</code><a href="mailto:home@3x.png" target="_blank" rel="external">home@3x.png</a>`</p>
+<p>React Native 的 <a href="http://facebook.github.io/react-native/releases/0.46/docs/images.html#static-image-resources" target="_blank" rel="external">Image</a> 组件提供了对这种用法的支持，只需要将资源文件都放入 <code>img</code> 文件夹下，然后使用时将 Image 组件的 <code>source</code>属性设置为对应的路径即可：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;Image source=&#123;<span class="built_in">require</span>(<span class="string">'./img/home.png'</span>)&#125; /&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>注意：</p>
 <p>此处 <code>require(&#39;./img/home.png&#39;)</code> 中，<code>&#39;./img/home.png&#39;</code> 的值只能是常量。<br>不能够动态拼接图片的路径，比如下面的用法是错误的：</p>
@@ -282,32 +289,32 @@
 <h3 id="Alternatives"><a href="#Alternatives" class="headerlink" title="Alternatives"></a>Alternatives</h3><p>还有一个替代方案是在 React Native 中直接加载 SVG 图片来做图标。</p>
 <p>但是需要注意的是，原生 React Native 的 Image 组件目前是不支持 SVG 的，以下代码是不工作的。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;Image source=&#123;<span class="built_in">require</span>(<span class="string">'./img/home.svg'</span>)&#125; /&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>目前有一个第三方的库 <a href="https://github.com/matc4/react-native-svg-uri" target="_blank" rel="noopener">react-native-svg-uri</a> 提供了对渲染 SVG 图片的支持，但这个库在 Android 中有一些 KnownBugs，我们现在先不展开讨论这种方案了，大家感兴趣的话可以自行了解。</p>
-<h2 id="字体图标"><a href="#字体图标" class="headerlink" title="字体图标"></a>字体图标</h2><p><a href="https://github.com/oblador/react-native-vector-icons" target="_blank" rel="noopener">react-native-vector-icons</a> 提供了10个字图库的支持，其中包括：</p>
+<p>目前有一个第三方的库 <a href="https://github.com/matc4/react-native-svg-uri" target="_blank" rel="external">react-native-svg-uri</a> 提供了对渲染 SVG 图片的支持，但这个库在 Android 中有一些 KnownBugs，我们现在先不展开讨论这种方案了，大家感兴趣的话可以自行了解。</p>
+<h2 id="字体图标"><a href="#字体图标" class="headerlink" title="字体图标"></a>字体图标</h2><p><a href="https://github.com/oblador/react-native-vector-icons" target="_blank" rel="external">react-native-vector-icons</a> 提供了10个字图库的支持，其中包括：</p>
 <ul>
-<li><a href="http://entypo.com" target="_blank" rel="noopener"><code>Entypo</code></a> by Daniel Bruce (<strong>411</strong> icons) </li>
-<li><a href="http://evil-icons.io" target="_blank" rel="noopener"><code>EvilIcons</code></a> by Alexander Madyankin &amp; Roman Shamin (v1.8.0, <strong>70</strong> icons) </li>
-<li><a href="http://fortawesome.github.io/Font-Awesome/icons/" target="_blank" rel="noopener"><code>FontAwesome</code></a> by Dave Gandy (v4.7.0, <strong>675</strong> icons) </li>
-<li><a href="http://zurb.com/playground/foundation-icon-fonts-3" target="_blank" rel="noopener"><code>Foundation</code></a> by ZURB, Inc. (v3.0, <strong>283</strong> icons)</li>
-<li><a href="http://ionicframework.com/docs/v2/ionicons/" target="_blank" rel="noopener"><code>Ionicons</code></a> by Ben Sperry (v3.0.0, <strong>859</strong> icons)</li>
-<li><a href="https://www.google.com/design/icons/" target="_blank" rel="noopener"><code>MaterialIcons</code></a> by Google, Inc. (v3.0.1, <strong>932</strong> icons)</li>
-<li><a href="https://materialdesignicons.com/" target="_blank" rel="noopener"><code>MaterialCommunityIcons</code></a> by MaterialDesignIcons.com (v1.9.33, <strong>1932</strong> icons)</li>
-<li><a href="http://octicons.github.com" target="_blank" rel="noopener"><code>Octicons</code></a> by Github, Inc. (v5.0.1, <strong>176</strong> icons)</li>
-<li><a href="http://zocial.smcllns.com/" target="_blank" rel="noopener"><code>Zocial</code></a> by Sam Collins (v1.0, <strong>100</strong> icons)</li>
-<li><a href="http://simplelineicons.com/" target="_blank" rel="noopener"><code>SimpleLineIcons</code></a> by Sabbir &amp; Contributors (v2.4.1, <strong>189</strong> icons)</li>
+<li><a href="http://entypo.com" target="_blank" rel="external"><code>Entypo</code></a> by Daniel Bruce (<strong>411</strong> icons) </li>
+<li><a href="http://evil-icons.io" target="_blank" rel="external"><code>EvilIcons</code></a> by Alexander Madyankin &amp; Roman Shamin (v1.8.0, <strong>70</strong> icons) </li>
+<li><a href="http://fortawesome.github.io/Font-Awesome/icons/" target="_blank" rel="external"><code>FontAwesome</code></a> by Dave Gandy (v4.7.0, <strong>675</strong> icons) </li>
+<li><a href="http://zurb.com/playground/foundation-icon-fonts-3" target="_blank" rel="external"><code>Foundation</code></a> by ZURB, Inc. (v3.0, <strong>283</strong> icons)</li>
+<li><a href="http://ionicframework.com/docs/v2/ionicons/" target="_blank" rel="external"><code>Ionicons</code></a> by Ben Sperry (v3.0.0, <strong>859</strong> icons)</li>
+<li><a href="https://www.google.com/design/icons/" target="_blank" rel="external"><code>MaterialIcons</code></a> by Google, Inc. (v3.0.1, <strong>932</strong> icons)</li>
+<li><a href="https://materialdesignicons.com/" target="_blank" rel="external"><code>MaterialCommunityIcons</code></a> by MaterialDesignIcons.com (v1.9.33, <strong>1932</strong> icons)</li>
+<li><a href="http://octicons.github.com" target="_blank" rel="external"><code>Octicons</code></a> by Github, Inc. (v5.0.1, <strong>176</strong> icons)</li>
+<li><a href="http://zocial.smcllns.com/" target="_blank" rel="external"><code>Zocial</code></a> by Sam Collins (v1.0, <strong>100</strong> icons)</li>
+<li><a href="http://simplelineicons.com/" target="_blank" rel="external"><code>SimpleLineIcons</code></a> by Sabbir &amp; Contributors (v2.4.1, <strong>189</strong> icons)</li>
 </ul>
 <h3 id="常用图标"><a href="#常用图标" class="headerlink" title="常用图标"></a>常用图标</h3><p>如果图标不需要特殊定制的话，引用这些库中的字体图标就可以了。比如：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> Icon <span class="keyword">from</span> <span class="string">'react-native-vector-icons/FontAwesome'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> myIcon = (&lt;Icon name="rocket" size=&#123;30&#125; color="#900" /&gt;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <h3 id="自定义图标"><a href="#自定义图标" class="headerlink" title="自定义图标"></a>自定义图标</h3><p>很多项目中都需要使用自定义的图标，当设计好了图标之后，我们需要把图标转成字体，然后集成到 React Native 项目中。</p>
-<p><code>react-native-vector-icons</code> 是支持<a href="https://github.com/oblador/react-native-vector-icons#custom-fonts" target="_blank" rel="noopener">自定义图标</a>的，比较方便的方式是根据 <a href="http://fontello.com/" target="_blank" rel="noopener">Fontello</a> （或者 <a href="https://icomoon.io/app" target="_blank" rel="noopener">Icomoon</a>） 的配置来生成自定义的图标库。步骤为：</p>
+<p><code>react-native-vector-icons</code> 是支持<a href="https://github.com/oblador/react-native-vector-icons#custom-fonts" target="_blank" rel="external">自定义图标</a>的，比较方便的方式是根据 <a href="http://fontello.com/" target="_blank" rel="external">Fontello</a> （或者 <a href="https://icomoon.io/app" target="_blank" rel="external">Icomoon</a>） 的配置来生成自定义的图标库。步骤为：</p>
 <ol>
 <li>将设计好的图标以 SVG 格式导出</li>
-<li>将 SVG 图片导入<a href="http://fontello.com/" target="_blank" rel="noopener">Fontello</a>（或 <a href="https://icomoon.io/app" target="_blank" rel="noopener">Icomoon</a>）</li>
+<li>将 SVG 图片导入<a href="http://fontello.com/" target="_blank" rel="external">Fontello</a>（或 <a href="https://icomoon.io/app" target="_blank" rel="external">Icomoon</a>）</li>
 <li>导出字体和相关配置</li>
 <li>手动在iOS 和 Android 项目中配置字体资源</li>
 <li>在 React Native 中引用自定义字体图标</li>
 </ol>
-<p>比较详细的步骤可以查看<a href="https://blog.bam.tech/developper-news/add-custom-icons-to-your-react-native-application" target="_blank" rel="noopener">博客</a></p>
+<p>比较详细的步骤可以查看<a href="https://blog.bam.tech/developper-news/add-custom-icons-to-your-react-native-application" target="_blank" rel="external">博客</a></p>
 <p>这个方案可以解决<code>位图图标</code>方案中的问题。但是同样也不是很完美，因为每次更新图标时，需要重新生成字体文件和 <code>Fontello</code>（或者 <code>Icomoon</code>）的配置，并将配置和字体文件更新到项目中。</p>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>本文主要介绍了两种在 React Native 中使用图标的两种方案，并列举了其优缺点。<br>不过最后还是那句话：没有最好的，只有最适合的。<br>在具体项目和需求面前，希望你可以结合实际情况找到最适合自己的方案。</p>
 
