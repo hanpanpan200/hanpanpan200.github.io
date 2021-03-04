@@ -1,412 +1,415 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Swift optional type | GraceHan Blog</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="为什么会出现optional类型?在只有基础数据类型(整形Int、浮点数Double和Float、布尔类型Bool以及字符串类型String)时，Swift语言不会为默认为变量赋初始值，所有的变量必须手动赋值。不初始化就会报错, 例如下面的例子：
-12var plainString: String//error: Variable used before being initialized
-但是实">
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"hanpanpan200.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="为什么会出现optional类型?在只有基础数据类型(整形Int、浮点数Double和Float、布尔类型Bool以及字符串类型String)时，Swift语言不会为默认为变量赋初始值，所有的变量必须手动赋值。不初始化就会报错, 例如下面的例子： 12var plainString: String&#x2F;&#x2F;error: Variable used before being initialized 但是实">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Swift optional type">
-<meta property="og:url" content="http://hanpanpan200.github.io/2016/01/06/swift-optional-type/index.html">
-<meta property="og:site_name" content="GraceHan Blog">
-<meta property="og:description" content="为什么会出现optional类型?在只有基础数据类型(整形Int、浮点数Double和Float、布尔类型Bool以及字符串类型String)时，Swift语言不会为默认为变量赋初始值，所有的变量必须手动赋值。不初始化就会报错, 例如下面的例子：
-12var plainString: String//error: Variable used before being initialized
-但是实">
-<meta property="og:updated_time" content="2020-02-10T14:53:17.240Z">
+<meta property="og:url" content="https://hanpanpan200.github.io/2016/01/06/swift-optional-type/index.html">
+<meta property="og:site_name" content="成长自习室">
+<meta property="og:description" content="为什么会出现optional类型?在只有基础数据类型(整形Int、浮点数Double和Float、布尔类型Bool以及字符串类型String)时，Swift语言不会为默认为变量赋初始值，所有的变量必须手动赋值。不初始化就会报错, 例如下面的例子： 12var plainString: String&#x2F;&#x2F;error: Variable used before being initialized 但是实">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-01-06T14:57:11.000Z">
+<meta property="article:modified_time" content="2021-03-04T09:01:42.676Z">
+<meta property="article:author" content="Grace Han">
+<meta property="article:tag" content="OptionalType">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Swift optional type">
-<meta name="twitter:description" content="为什么会出现optional类型?在只有基础数据类型(整形Int、浮点数Double和Float、布尔类型Bool以及字符串类型String)时，Swift语言不会为默认为变量赋初始值，所有的变量必须手动赋值。不初始化就会报错, 例如下面的例子：
-12var plainString: String//error: Variable used before being initialized
-但是实">
+
+
+<link rel="canonical" href="https://hanpanpan200.github.io/2016/01/06/swift-optional-type/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>Swift optional type | 成长自习室</title>
   
-    <link rel="alternative" href="/atom.xml" title="GraceHan Blog" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  <link rel="stylesheet" href="/css/style.css">
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
 </head>
 
-<body>
-  <div id="container">
-    <div class="left-col">
-    <div class="overlay"></div>
-<div class="intrude-less">
-	<header id="header" class="inner">
-		<a href="/" class="profilepic">
-			
-			<img lazy-src="/avatar.jpg" class="js-avatar">
-			
-		</a>
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
 
-		<hgroup>
-		  <h1 class="header-author"><a href="/">Grace Han</a></h1>
-		</hgroup>
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
 
-		
-		<p class="header-subtitle">一花一世界, 一叶一菩提</p>
-		
+  <div class="site-meta">
 
-		<div align="center" style="margin-top: 23px;">
-			<a href="http://www.blogcounter4free.com" target="_blank">
-				<img src="http://www.blogcounter4free.com/counter.php?page=hanpanpan200.github.io/&digits=36&unique=0" alt="blog counter" border="0;">
-			</a>
-		</div>
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">成长自习室</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
 
-		
-			<div class="switch-btn">
-				<div class="icon">
-					<div class="icon-ctn">
-						<div class="icon-wrap icon-house" data-idx="0">
-							<div class="birdhouse"></div>
-							<div class="birdhouse_holes"></div>
-						</div>
-						<div class="icon-wrap icon-ribbon hide" data-idx="1">
-							<div class="ribbon"></div>
-						</div>
-						
-						<div class="icon-wrap icon-link hide" data-idx="2">
-							<div class="loopback_l"></div>
-							<div class="loopback_r"></div>
-						</div>
-						
-						
-						<div class="icon-wrap icon-me hide" data-idx="3">
-							<div class="user"></div>
-							<div class="shoulder"></div>
-						</div>
-						
-					</div>
-
-				</div>
-				<div class="tips-box hide">
-					<div class="tips-arrow"></div>
-					<ul class="tips-inner">
-						<li>主菜单</li>
-						<li>标签</li>
-						
-						<li>友情链接</li>
-						
-						
-						<li>关于我</li>
-						
-					</ul>
-				</div>
-			</div>
-		
-
-		<div class="switch-area">
-			<div class="switch-wrap">
-				<section class="switch-part switch-part1">
-					<nav class="header-menu">
-						<ul>
-						
-							<li><a href="/">主页</a></li>
-				        
-							<li><a href="/archives">所有文章</a></li>
-				        
-						</ul>
-					</nav>
-					<nav class="header-nav">
-						<div class="social">
-							
-								<a class="github" target="_blank" href="https://github.com/hanpanpan200" title="github">github</a>
-					        
-								<a class="weibo" target="_blank" href="http://weibo.com/0513penny" title="weibo">weibo</a>
-					        
-								<a class="linkedin" target="_blank" href="https://www.linkedin.com/in/grace-han-aa9397114" title="linkedin">linkedin</a>
-					        
-						</div>
-					</nav>
-				</section>
-
-				
-				<section class="switch-part switch-part2">
-					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/2016/" style="font-size: 10px;">2016</a> <a href="/tags/2019/" style="font-size: 10px;">2019</a> <a href="/tags/Dependency/" style="font-size: 10px;">Dependency</a> <a href="/tags/Native-Module-For-React-Native/" style="font-size: 10px;">Native Module For React Native</a> <a href="/tags/NavigatorIOS/" style="font-size: 10px;">NavigatorIOS</a> <a href="/tags/OptionalType/" style="font-size: 10px;">OptionalType</a> <a href="/tags/PushNotification/" style="font-size: 20px;">PushNotification</a> <a href="/tags/Redux/" style="font-size: 10px;">Redux</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/Setup/" style="font-size: 10px;">Setup</a> <a href="/tags/Share/" style="font-size: 10px;">Share</a>
-					</div>
-				</section>
-				
-
-				
-				<section class="switch-part switch-part3">
-					<div id="js-friends">
-					
-			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.penghongwei.cc/">MaxPeng</a>
-			        
-			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://bangwu.github.io/">BangWu</a>
-			        
-			        </div>
-				</section>
-				
-
-				
-				
-				<section class="switch-part switch-part4">
-				
-					<div id="js-aboutme">我就是我，是颜色不一样的吃货…</div>
-				</section>
-				
-			</div>
-		</div>
-	</header>
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
 </div>
 
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-  	<div class="overlay">
-  		<div class="slider-trigger"></div>
-  		<h1 class="header-author js-mobile-header hide">Grace Han</h1>
-  	</div>
-	<div class="intrude-less">
-		<header id="header" class="inner">
-			<div class="profilepic">
-			
-				<img lazy-src="/avatar.jpg" class="js-avatar">
-			
-			</div>
-			<hgroup>
-			  <h1 class="header-author">Grace Han</h1>
-			</hgroup>
-			
-			<p class="header-subtitle">一花一世界, 一叶一菩提</p>
-			
-			
-			<div align="center" style="margin-top: 23px;">
-				<a href="http://www.blogcounter4free.com" target="_blank">
-					<img src="http://www.blogcounter4free.com/counter.php?page=hanpanpan200.github.io/&digits=36&unique=0" alt="blog counter" border="0;">
-				</a>
-			</div>
 
-			<nav class="header-menu">
-				<ul>
-				
-					<li><a href="/">主页</a></li>
-		        
-					<li><a href="/archives">所有文章</a></li>
-		        
-		        <div class="clearfix"></div>
-				</ul>
-			</nav>
-			<nav class="header-nav">
-				<div class="social">
-					
-						<a class="github" target="_blank" href="https://github.com/hanpanpan200" title="github">github</a>
-			        
-						<a class="weibo" target="_blank" href="http://weibo.com/0513penny" title="weibo">weibo</a>
-			        
-						<a class="linkedin" target="_blank" href="https://www.linkedin.com/in/grace-han-aa9397114" title="linkedin">linkedin</a>
-			        
-				</div>
-			</nav>
-		</header>				
-	</div>
-</nav>
 
-      <div class="body-wrap"><article id="post-swift-optional-type" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/01/06/swift-optional-type/" class="article-date">
-  	<time datetime="2016-01-06T14:57:11.000Z" itemprop="datePublished">2016-01-06</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
+
+
+
+
+</div>
         
   
-    <h1 class="article-title" itemprop="name">
-      Swift optional type
-    </h1>
-  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
 
-      </header>
-      
-      <div class="article-info article-info-post">
-        
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/iOS/">iOS</a>
-	</div>
+  <aside class="sidebar">
 
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
 
-        
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OptionalType/">OptionalType</a></li></ul>
-	</div>
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E5%87%BA%E7%8E%B0optional%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">为什么会出现optional类型?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#optional%E7%B1%BB%E5%9E%8B%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">optional类型是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#optional%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%8B%86%E5%8C%85"><span class="nav-number">3.</span> <span class="nav-text">optional类型的拆包</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#About"><span class="nav-number">3.1.</span> <span class="nav-text">About ?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#About-1"><span class="nav-number">3.2.</span> <span class="nav-text">About !</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
 
-        <div class="clearfix"></div>
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Grace Han</p>
+  <div class="site-description" itemprop="description">思考，总结，成长，分享，改变</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
       </div>
-      
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
     
-    <div class="article-entry" itemprop="articleBody">
-      
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hanpanpan200.github.io/2016/01/06/swift-optional-type/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Grace Han">
+      <meta itemprop="description" content="思考，总结，成长，分享，改变">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="成长自习室">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Swift optional type
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-01-06 22:57:11" itemprop="dateCreated datePublished" datetime="2016-01-06T22:57:11+08:00">2016-01-06</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-03-04 17:01:42" itemprop="dateModified" datetime="2021-03-04T17:01:42+08:00">2021-03-04</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
         <h2 id="为什么会出现optional类型"><a href="#为什么会出现optional类型" class="headerlink" title="为什么会出现optional类型?"></a>为什么会出现optional类型?</h2><p>在只有基础数据类型(整形Int、浮点数Double和Float、布尔类型Bool以及字符串类型String)时，Swift语言不会为默认为变量赋初始值，所有的变量必须手动赋值。不初始化就会报错, 例如下面的例子：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> plainString: <span class="type">String</span></span><br><span class="line"><span class="comment">//error: Variable used before being initialized</span></span><br></pre></td></tr></table></figure>
 <p>但是实际项目中存在需要某些变量先定义，随后在某个时机被初始化的需求。比如说View中的一个输入框<code>emailTextField</code>，它的属性<code>emailTextField.text</code>的值就只是在用户输入数据后才不为空。</p>
 <p>后来曾思考，若都把可能为空的变量初始化为nil，之后再根据需求在不同时机改变它为非空的值，是不是可以解决这个问题？答案是否定的，因为我们随时可能会在这个变量上调用一些方法，但如果当时变量的值凑巧为nil时，就会导致程序crash。</p>
 <p>为了解决问题：<code>定义一个不需要初始化的变量，并且当这个变量在以后的调用过程中可以被安全使用，不论其是否为nil</code>， Optional类型就顺理成章地出现了。</p>
-<a id="more"></a>
+<span id="more"></span>
+
 <h2 id="optional类型是什么？"><a href="#optional类型是什么？" class="headerlink" title="optional类型是什么？"></a>optional类型是什么？</h2><p>从Swift源码看，Optional 类型是一个enum（枚举）类型。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">Optional</span>&lt;<span class="title">Wrapped</span>&gt; : <span class="title">_Reflectable</span>, <span class="title">NilLiteralConvertible</span> </span>&#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="type">None</span></span><br><span class="line">    <span class="keyword">case</span> <span class="type">Some</span>(<span class="type">Wrapped</span>)</span><br><span class="line">    <span class="comment">/// Construct a `nil` instance.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">init</span>()</span><br><span class="line">    <span class="comment">/// Construct a non-`nil` instance that stores `some`.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">init</span>(<span class="number">_</span> some: <span class="type">Wrapped</span>)</span><br><span class="line">    <span class="comment">/// If `self == nil`, returns `nil`.  Otherwise, returns `f(self!)`.</span></span><br><span class="line">    <span class="meta">@warn_unused_result</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">map</span>&lt;U&gt;<span class="params">(@noescape f: <span class="params">(Wrapped)</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">U</span>) <span class="keyword">rethrows</span> -&gt; <span class="type">U?</span></span><br><span class="line">    <span class="comment">/// Returns `nil` if `self` is nil, `f(self!)` otherwise.</span></span><br><span class="line">    <span class="meta">@warn_unused_result</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">flatMap</span>&lt;U&gt;<span class="params">(@noescape f: <span class="params">(Wrapped)</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">U?</span>) <span class="keyword">rethrows</span> -&gt; <span class="type">U?</span></span><br><span class="line">    <span class="comment">/// Create an instance initialized with `nil`.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">init</span>(nilLiteral: ())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">Optional</span>&lt;<span class="title">Wrapped</span>&gt; : <span class="title">_Reflectable</span>, <span class="title">NilLiteralConvertible</span> </span>&#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="type">None</span></span><br><span class="line">    <span class="keyword">case</span> <span class="type">Some</span>(<span class="type">Wrapped</span>)</span><br><span class="line">    <span class="comment">/// Construct a `nil` instance.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">init</span>()</span></span><br><span class="line">    <span class="comment">/// Construct a non-`nil` instance that stores `some`.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">init</span>(<span class="keyword">_</span> <span class="params">some</span>: <span class="type">Wrapped</span>)</span></span><br><span class="line">    <span class="comment">/// If `self == nil`, returns `nil`.  Otherwise, returns `f(self!)`.</span></span><br><span class="line">    <span class="meta">@warn_unused_result</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">map</span>&lt;<span class="type">U</span>&gt;(<span class="meta">@noescape</span> <span class="params">f</span>: (<span class="type">Wrapped</span>) <span class="keyword">throws</span> -&gt; <span class="type">U</span>)</span> <span class="keyword">rethrows</span> -&gt; <span class="type">U</span>?</span><br><span class="line">    <span class="comment">/// Returns `nil` if `self` is nil, `f(self!)` otherwise.</span></span><br><span class="line">    <span class="meta">@warn_unused_result</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">flatMap</span>&lt;<span class="type">U</span>&gt;(<span class="meta">@noescape</span> <span class="params">f</span>: (<span class="type">Wrapped</span>) <span class="keyword">throws</span> -&gt; <span class="type">U</span>?)</span> <span class="keyword">rethrows</span> -&gt; <span class="type">U</span>?</span><br><span class="line">    <span class="comment">/// Create an instance initialized with `nil`.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">init</span>(<span class="params">nilLiteral</span>: ())</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
 <p>它有<code>None</code>和<code>Some</code>两种类型。其实<code>nil</code>就是<code>Optional.None</code>,非<code>nil</code>是<code>Optional.Some(Wrapped)</code>,这个<code>Optional.Some</code>是一个被包装了的类型，因此当获取它的值的时候，需要unwrap(拆包)。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> optionalString: <span class="type">String?</span> = <span class="string">"Hello world"</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> optionalString: <span class="type">String</span>? <span class="operator">=</span> <span class="string">&quot;Hello world&quot;</span></span><br></pre></td></tr></table></figure>
 <p>debug时会看到<code>optionalString</code>的值为</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;Some &quot;Hello world&quot;&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="optional类型的拆包"><a href="#optional类型的拆包" class="headerlink" title="optional类型的拆包"></a>optional类型的拆包</h2><p>与拆包相关的操作符有 <code>!</code> 和 <code>?</code></p>
 <p>以下有几个例子</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Optional type variable should be unwrapped before use. Use ! or ? to unwrap.</span></span><br><span class="line"><span class="keyword">var</span> optionalNilString:<span class="type">String?</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> optionalNilStringTest1 = optionalNilString?.lowercaseString</span><br><span class="line"></span><br><span class="line"><span class="comment">//Attention! Force unwrap with ! will lead to crash here! You can unwrap the comment and try</span></span><br><span class="line"><span class="comment">//var optionalNilStringTest2 = optionalNilString！.lowercaseString</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> optionalPresentString:<span class="type">String?</span> = <span class="string">"optional present string"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> optionalPresentStringTest1 =</span><br><span class="line"></span><br><span class="line">optionalPresentString?.lowercaseString</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> optionalPresentStringTest2 = optionalPresentString!.lowercaseString</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Optional type variable should be unwrapped before use. Use ! or ? to unwrap.</span></span><br><span class="line"><span class="keyword">var</span> optionalNilString:<span class="type">String</span>?</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> optionalNilStringTest1 <span class="operator">=</span> optionalNilString<span class="operator">?</span>.lowercaseString</span><br><span class="line"></span><br><span class="line"><span class="comment">//Attention! Force unwrap with ! will lead to crash here! You can unwrap the comment and try</span></span><br><span class="line"><span class="comment">//var optionalNilStringTest2 = optionalNilString！.lowercaseString</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> optionalPresentString:<span class="type">String</span>? <span class="operator">=</span> <span class="string">&quot;optional present string&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> optionalPresentStringTest1 <span class="operator">=</span></span><br><span class="line"></span><br><span class="line">optionalPresentString<span class="operator">?</span>.lowercaseString</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> optionalPresentStringTest2 <span class="operator">=</span> optionalPresentString<span class="operator">!</span>.lowercaseString</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
 <h3 id="About"><a href="#About" class="headerlink" title="About ?"></a>About ?</h3><p>如果Optional type variable的值不为nil，则会进行下一步操作，执行后面的方法调用。</p>
 <h3 id="About-1"><a href="#About-1" class="headerlink" title="About !"></a>About !</h3><p>强制拆包，如果Optional type variable的值为nil，就会crash.</p>
 
-      
     </div>
+
     
-  </div>
-  
     
-<nav id="article-nav">
-  
-    <a href="/2016/03/08/react-native-navigatorIOS/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/OptionalType/" rel="tag"># OptionalType</a>
+          </div>
+
         
-          ReactNative-NavigatorIOS
-        
-      </div>
-    </a>
-  
-  
-</nav>
 
-  
-</article>
-
-
-<div class="share_jia">
-	<!-- JiaThis Button BEGIN -->
-	<div class="jiathis_style">
-		<span class="jiathis_txt">Share to: &nbsp; </span>
-		<a class="jiathis_button_facebook"></a> 
-    <a class="jiathis_button_twitter"></a>
-    <a class="jiathis_button_plus"></a> 
-    <a class="jiathis_button_tsina"></a>
-		<a class="jiathis_button_cqq"></a>
-		<a class="jiathis_button_douban"></a>
-		<a class="jiathis_button_weixin"></a>
-		<a class="jiathis_button_tumblr"></a>
-    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	</div>
-	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
-	<!-- JiaThis Button END -->
+          <div class="post-nav">
+            <div class="post-nav-item">
+            </div>
+            <div class="post-nav-item">
+                <a href="/2016/05/23/setup-reactjs-webpack-es2015/" rel="next" title="Set up project with ReactJS, webpack, and ES2015">
+                  Set up project with ReactJS, webpack, and ES2015 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
 </div>
 
 
 
 
-<div class="share_addthis">
-  <div class="sharing addthis_toolbox share">
-    <a class="addthis_button_facebook_like"></a>
-    <a class="addthis_button_tweet"></a>
-    <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-    <a class="addthis_counter addthis_pill_style"></a>
-  </div>
-  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-560c64c35486b3d4" async="async"></script>
-</div>
 
-
-
-
-<div class="duoshuo">
-	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="swift-optional-type" data-title="Swift optional type" data-url="http://hanpanpan200.github.io/2016/01/06/swift-optional-type/"></div>
-	<!-- 多说评论框 end -->
-	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-	<script type="text/javascript">
-	var duoshuoQuery = {short_name:"Grace"};
-	(function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		 || document.getElementsByTagName('body')[0]).appendChild(ds);
-	})();
-	</script>
-	<!-- 多说公共JS代码 end -->
-</div>
-
-
-
-
-</div>
-      <footer id="footer">
-  <div class="outer">
-    <div id="footer-info">
-    	<div class="footer-left">
-    		&copy; 2020 Grace Han
-    	</div>
-      	<div class="footer-right">
-      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
-      	</div>
-    </div>
-  </div>
-</footer>
-    </div>
-    
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
 
 
 <script>
-	var yiliaConfig = {
-		fancybox: true,
-		mathjax: true,
-		animate: true,
-		isHome: false,
-		isPost: true,
-		isArchive: false,
-		isTag: false,
-		isCategory: false,
-		open_in_new: false
-	}
-</script>
-<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
-<script src="/js/main.js"></script>
-
-
-
-
-
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-    tex2jax: {
-        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-        processEscapes: true,
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
     }
-});
-
-MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';                 
-    }       
-});
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
 </script>
+</div>
+  </main>
 
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
+  <footer class="footer">
+    <div class="footer-inner">
 
 
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Grace Han</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+    <div class="pjax">
+
+
+    </div>
 </body>
 </html>
