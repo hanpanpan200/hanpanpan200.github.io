@@ -4,7 +4,7 @@ category: ReactNative
 tags: PushNotification
 ---
 
-<img src="/images/pushing-notification-in-RN/android-landing.jpeg" alt="landing" width="80%"/>
+<img src="/images/pushing-notification-in-RN/android-landing.jpeg" alt="landing" />
 
 在上篇文章中，我们提到了 [怎样在 iOS 中集成 react-natiave-fcm](http://hanpanpan200.github.io/2017/11/20/pushing-notification-in-RN-iOS)，今天我们主要讨论 Android 中的配置和注意事项。
 

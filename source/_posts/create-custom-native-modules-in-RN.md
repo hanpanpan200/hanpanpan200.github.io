@@ -3,7 +3,7 @@ date: 2017-07-16 16:42:17
 category: ReactNative
 ---
 
-<img src="/images/create-custom-native-modules-in-RN/landing.jpeg" alt="Landing" width="80%"/>
+<img src="/images/create-custom-native-modules-in-RN/landing.jpeg" alt="Landing" />
 
 虽然 React Native 目前已经提供了很多常用的组件，但是在实际项目中，我们总会发现需求往往是这些常用组件所不能够满足的。比如说：图像识别模块、指纹识别模块等。这种模块大部分已经有了比较成熟的SDK，我们此时需要做的就是将已有的轮子，封装到 React Native 中来使用。
 

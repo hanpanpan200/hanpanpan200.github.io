@@ -4,7 +4,7 @@ category: ReactNative
 tags: 开源项目
 ---
 
-<img src="/images/react-native-android-share/landing.jpg" alt="Landing" width="80%"/>
+<img src="/images/react-native-android-share/landing.jpg" alt="Landing" />
 
 有这样一个应用场景：
 
@@ -52,12 +52,12 @@ getExternalStorageDirectory()
 
 打开 Android 设备的文件系统的主页，可以看到两个重要的目录: `Main Storage` 和 `System`。
 
-<img src="/images/react-native-android-share/home.jpg" alt="File-System-Home" width="40%"/>
+<img src="/images/react-native-android-share/home.jpg" alt="File-System-Home" />
 
 然后打开 `Main Storage` 文件夹可以看到这里显示了手机上很多 App 的目录。比如说，当我们打开 `netease` 就可以看到我们在`网易云音乐`中下载的一些音乐或者MV文件。
 于是我们可以知道，我们当前需要的做的，就是在 Public external storage 的根目录下，创建一个专属于自己App的文件夹，用来存放下载的文件。
 
-<img src="/images/react-native-android-share/MainStorage.jpg" alt="Main-Storage" width="40%"/>
+<img src="/images/react-native-android-share/MainStorage.jpg" alt="Main-Storage" />
 
 ## 用React Native的方式来实现在Android中下载并分享
 
@@ -68,17 +68,17 @@ Example代码地址： [RN-android-download-share](https://github.com/hanpanpan2
 Example的运行结果：
 
 1、 下载文件
-<img src="/images/react-native-android-share/download.gif" alt="download" width="40%"/>
+<img src="/images/react-native-android-share/download.gif" alt="download" />
 
 下载成功后，打开文件系统，在 `Main Storage` 目录下查看：此时已经创建了文件夹 `RNAndroidDownloadShare`，并且已将文件`Dropbox.pdf`保存在这个文件夹内。
 
-<img src="/images/react-native-android-share/download-result1.jpg" alt="download-result1" width="40%"/>
-<img src="/images/react-native-android-share/download-result2.jpg" alt="download-result2" width="40%"/>
+<img src="/images/react-native-android-share/download-result1.jpg" alt="download-result1" />
+<img src="/images/react-native-android-share/download-result2.jpg" alt="download-result2" />
 
 2、 通过Email分享文件
 
-<img src="/images/react-native-android-share/share.jpg" alt="share" width="40%"/>
-<img src="/images/react-native-android-share/share-via-email.jpg" alt="share-via-email" width="40%"/>
+<img src="/images/react-native-android-share/share.jpg" alt="share" />
+<img src="/images/react-native-android-share/share-via-email.jpg" alt="share-via-email" />
 
 ## Tips
 

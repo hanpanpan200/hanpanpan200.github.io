@@ -4,7 +4,7 @@ category: 总结感悟
 tags: 年度总结
 ---
 
-<img src="/images/2016-summary/landing.jpg" alt="Landing" width="80%"/>
+<img src="/images/2016-summary/landing.jpg" alt="Landing" />
 
 岁月是把杀猪刀，每每到年末被它碾压的感觉异常强烈。
 

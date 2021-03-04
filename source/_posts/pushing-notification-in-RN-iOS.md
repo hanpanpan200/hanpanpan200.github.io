@@ -4,7 +4,7 @@ category: ReactNative
 tags: PushNotification
 ---
 
-<img src="/images/pushing-notification-in-RN/landing.jpg" alt="landing" width="80%"/>
+<img src="/images/pushing-notification-in-RN/landing.jpg" alt="landing" />
 
 消息推送在 App 中很常用，那么在 React Native 中怎样来集成消息推送呢？Google 推出的 [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging/?hl=zh-cn) 是用来做消息推送的，不过在中国国内使用时需要安装 Google Service 。
 
@@ -26,9 +26,9 @@ FCM 需要调用 APNs 的 API 从而向 iOS App 推送服务。那么 FCM 与 AP
 配置方式：
 - 进入[Certificates, Identifiers & Profiles](https://developer.apple.com/account/ios/certificate/) 页面。
 - 选中 AppID -> 选中对应的 AppID -> Edit -> Push notifications
-<img src="/images/pushing-notification-in-RN/certificate.png" alt="certificate" width="80%"/>
+<img src="/images/pushing-notification-in-RN/certificate.png" alt="certificate" />
 - Create Certificate...(development or production)
-<img src="/images/pushing-notification-in-RN/create-certificate.png" alt="create-certificate" width="80%"/>
+<img src="/images/pushing-notification-in-RN/create-certificate.png" alt="create-certificate" />
 - Add certificate to App ID
 
 
@@ -38,7 +38,7 @@ FCM 需要调用 APNs 的 API 从而向 iOS App 推送服务。那么 FCM 与 AP
 - 进入[Certificates, Identifiers & Profiles](https://developer.apple.com/account/ios/certificate/) 页面。
 - 选中 Keys
 - Create new key -> 输入 name 并选中 APNs -> 下一步
-<img src="/images/pushing-notification-in-RN/create-key.png" alt="create-key" width="80%"/>
+<img src="/images/pushing-notification-in-RN/create-key.png" alt="create-key" />
 - 下载 Key file 并将其保存在安全的地方（注意，此文件只提供一次下载机会，请妥善保存）
 
 ### APNs Provider Certificates 与 Provider Authentication Tokens 的对比
@@ -69,9 +69,9 @@ FCM 需要调用 APNs 的 API 从而向 iOS App 推送服务。那么 FCM 与 AP
 5. 在当前页面中，点击按钮 `Donwload GoogleService-Info.plist`，将其下载到本地，并根据说明，将此文件拖动至Xcode的 iOS 项目中的指定位置。
 6. 在接下来的页面中，点击下一步，直至完成。
 7. 在当前项目中，选中你刚创建的 App -> Settings
-<img src="/images/pushing-notification-in-RN/settings.png" alt="settings" width="80%"/>
-8. 选中 CLOUD MESSAGING 后，进入对应的 iOS App， 上传你的 **APNs Authentication Key**
-<img src="/images/pushing-notification-in-RN/auth-key.png" alt="auth-key" width="80%"/>
+<img src="/images/pushing-notification-in-RN/settings.png" alt="settings" />
+1. 选中 CLOUD MESSAGING 后，进入对应的 iOS App， 上传你的 **APNs Authentication Key**
+<img src="/images/pushing-notification-in-RN/auth-key.png" alt="auth-key" />
 至此，你已经在 Firebase 中完成了 iOS 项目的配置，可以到 [https://console.firebase.google.com/u/0/project/{your-app-id}/notification]() 的 dashboard 中尝试手动发送推送消息来检验配置是否正确。
 
 通过这一步，我们完成了 Firebase 中 iOS 项目的配置，FCM 已经可以成功与 APNs 通信了。
@@ -119,7 +119,7 @@ FCM 支持向安装了 App 的所有设备广播消息、向指定设备推送�
 - 选中 User segment
 - 选中你想广播消息的平台
 
-<img src="/images/pushing-notification-in-RN/broadcast.png" alt="broadcase message" width="80%"/>
+<img src="/images/pushing-notification-in-RN/broadcast.png" alt="broadcase message" />
 
 ### 向指定设备推送消息
 
@@ -128,7 +128,7 @@ FCM 支持向安装了 App 的所有设备广播消息、向指定设备推送�
 - 选中 Single device
 - 输入你在 `FCM.getFCMToken()` 成功后获取的 token
 
-<img src="/images/pushing-notification-in-RN/send-message-to-device.png" alt="send message to device" width="80%"/>
+<img src="/images/pushing-notification-in-RN/send-message-to-device.png" alt="send message to device" />
 
 此时 我们的 iOS App 就可以收到提醒了！
 

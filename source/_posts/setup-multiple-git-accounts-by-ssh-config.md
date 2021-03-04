@@ -13,7 +13,7 @@ category: Git
 
 具体交互见下图：
 
-<img src="/images/setup-multiple-git-accounts-by-ssh-config/ssh-working-model.png" alt="Working Model" width="60%" height="400px" />
+<img src="/images/setup-multiple-git-accounts-by-ssh-config/ssh-working-model.png" alt="Working Model" />
 
 在我们上传代码到 github 服务器的过程中，github server 就会作为 SSH server 来接受客户端的请求，并返回 public key（即公钥） 给客户端。而客户端将会进行 public key 和 private key（即私钥）的匹配校验，最终建立连接。
 
@@ -43,7 +43,7 @@ ssh -T git@github.com
 
 然而过了不久，你切换到了另一个项目/公司，公司给你分配了一个企业邮箱，需要你在工作时使用这个企业邮箱进行代码提交，于是你用公司邮箱创建了另外一个 Github 账户。但是你的 SSH 配置怎么办？于是你想了一下，哦，对，我就把原来的公钥再配置到这个 github 账户里吧！于是你尝试着将本地的 id_rsa.pub 文件中的内容拷贝到公司 github 账户的 SSH settings 里，当你尝试保存的时候得到一个错误消息:
 
-<img src="/images/setup-multiple-git-accounts-by-ssh-config/error.png" alt="Working Model" width="60%" height="400px" />
+<img src="/images/setup-multiple-git-accounts-by-ssh-config/error.png" />
 
 从原来的个人 github 账户中删除 SSH 配置，然后将 SSH 配置到公司 github 账户中？你觉得不行，你时不时还需要往自己的个人 github 账户中提交代码呢，总不能每次提交都把 SSH 配置挪来挪去吧！
 
@@ -146,11 +146,11 @@ github 默认的 ssh host 名字为 **github.com** ，我们已经在上述的�
 
 - 如果 repo 已经 clone 到本地，则需要修改 `./git/config` 中的 `remote origin` 配置。具体的 diff 如下：
 
-<img src="/images/setup-multiple-git-accounts-by-ssh-config/git-config.png" alt="Git Config" width="60%" height="400px" />
+<img src="/images/setup-multiple-git-accounts-by-ssh-config/git-config.png" alt="Git Config" />
 
 - 如果 repo 未 clone 到本地，则需要修改 clone 命令：
 
-<img src="/images/setup-multiple-git-accounts-by-ssh-config/clone-command.png" alt="Clone Command" width="60%" height="400px" />
+<img src="/images/setup-multiple-git-accounts-by-ssh-config/clone-command.png" alt="Clone Command" />
 
 按照如上进行配置之后，只需要在 clone 代码处注意一下 ssh host 的处理，便可以后顾无忧了！你可以放心的在各个 github 账户间切换自如。
 

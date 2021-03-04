@@ -3,7 +3,7 @@ date: 2019-02-28 14:49:33
 category: iOS
 ---
 
-<img src="/images/set-env-via-xcconfig-and-scheme/logo.svg" alt="Landing" width="60%" height="400px" />
+<img src="/images/set-env-via-xcconfig-and-scheme/logo.svg" alt="Landing" />
 
 想象一个场景，我们正在开发一款支付系统，这个支付系统同时支持有Web版和原生的iOS APP版本。
 这个支付系统有三个环境：

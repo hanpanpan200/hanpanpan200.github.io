@@ -3,7 +3,7 @@ date: 2017-06-08 15:30:33
 category: Redux
 ---
 
-<img src="/images/redux-dispatch/landing.jpeg" alt="Landing" width="80%"/>
+<img src="/images/redux-dispatch/landing.jpeg" alt="Landing" />
 
 [Redux](http://cn.redux.js.org/index.html) 是 JavaScript 状态容器，提供可预测化的状态管理。它支持 React、Angular、Ember、jQuery 甚至纯 JavaScript。
 
@@ -341,7 +341,7 @@ connect(mapStateToProps, mapDispatchToProps)(SomeComponent)
 {% endcodeblock %}
 
 调试的截图如下：
-<img src="/images/redux-dispatch/debug.png" alt="screenshot" width="80%"/>
+<img src="/images/redux-dispatch/debug.png" alt="screenshot" />
 
 可知此时的 store 来自于 `context`。
 

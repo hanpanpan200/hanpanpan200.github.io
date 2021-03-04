@@ -4,7 +4,7 @@ category: ReactNative
 tags: SVG
 ---
 
-<img src="/images/icons-in-rn/landing.jpg" alt="Landing" width="80%"/>
+<img src="/images/icons-in-rn/landing.jpg" alt="Landing" />
 
 在 React Native 开发中，我们常常会有下面这样的需求：
 

@@ -1,3 +1,82 @@
-scheme: Gemini
-arkmode: false
-pjax: true
+scheme: Pisces
+darkmode: false
+
+# ---------------------------------------------------------------
+# Sidebar Settings
+# See: https://theme-next.org/docs/theme-settings/sidebar
+# ---------------------------------------------------------------
+
+# Posts / Categories / Tags in sidebar.
+site_state: true
+
+# Blog rolls
+links_icon: link
+links_title: 友情链接
+# links_layout: block
+links_layout: inline
+links:
+  "Max Peng": https://codinglife.tech/
+
+# Sidebar Avatar
+avatar:
+  # In theme directory (source/images): /images/avatar.gif
+  # In site directory (source/uploads): /uploads/avatar.gif
+  # You can also use other linking images.
+  url: /images/avatar.jpeg
+  # If true, the avatar would be dispalyed in circle.
+  rounded: true
+  # The value of opacity should be choose from 0 to 1 to set the opacity of the avatar.
+  opacity: 1
+  # If true, the avatar would be rotated with the cursor.
+  rotated: false
+
+# `Follow me on GitHub` banner in the top-right corner.
+github_banner:
+  enable: true
+  permalink: https://github.com/hanpanpan200
+  title: Follow me on GitHub
+
+# Sidebar menu setting
+menu:
+  home: / || home
+  about: /about/ || user
+  tags: /tags/ || tags
+  categories: /categories/ || th
+  archives: /archives/ || archive
+  sitemap: /sitemap.xml || sitemap
+
+# Table Of Contents in the Sidebar
+toc:
+  enable: true
+  # Automatically add list number to toc.
+  number: true
+  # If true, all words will placed on next lines if header width longer then sidebar width.
+  wrap: false
+  # If true, all level of TOC in a post will be displayed, rather than the activated part of it.
+  expand_all: true
+  # Maximum heading depth of generated toc. You can set it in one post through `toc_max_depth` in Front-matter.
+  max_depth: 3
+
+sidebar:
+  # Sidebar Position.
+  position: left
+  #position: right
+
+  # Manual define the sidebar width. If commented, will be default for:
+  # Muse | Mist: 320
+  # Pisces | Gemini: 240
+  # width: 300
+
+  # Sidebar Display (only for Muse | Mist), available values:
+  #  - post    expand on posts automatically. Default.
+  #  - always  expand for all pages automatically.
+  #  - hide    expand only when click on the sidebar toggle icon.
+  #  - remove  totally remove sidebar including sidebar toggle.
+  display: post
+
+  # Sidebar offset from top menubar in pixels (only for Pisces | Gemini).
+  offset: 12
+  # Enable sidebar on narrow view (only for Muse | Mist).
+  onmobile: false
+  # Click any blank part of the page to close sidebar (only for Muse | Mist).
+  dimmer: false
