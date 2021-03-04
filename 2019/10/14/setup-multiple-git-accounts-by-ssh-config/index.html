@@ -21,7 +21,7 @@
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"hanpanpan200.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+    var CONFIG = {"hostname":"hanpanpan200.github.io","root":"/","images":"/images","scheme":"Pisces","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false,"dimmer":false},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
 <meta name="description" content="当我们使用 git 时，常用的授权通常有两种方式 HTTPS 和 SSH。当选用 HTTPS 时，每次代码的增删改查都需要输入一串密码进行身份验证，影响代码提交效率，因此大部分情况下我们会使用 SSH 免密登录。那么，在使用 SSH 免密登录过程中，你有遇到过什么问题吗？">
 <meta property="og:type" content="article">
@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://hanpanpan200.github.io/images/setup-multiple-git-accounts-by-ssh-config/git-config.png">
 <meta property="og:image" content="https://hanpanpan200.github.io/images/setup-multiple-git-accounts-by-ssh-config/clone-command.png">
 <meta property="article:published_time" content="2019-10-14T08:22:46.000Z">
-<meta property="article:modified_time" content="2021-03-04T09:01:42.672Z">
+<meta property="article:modified_time" content="2021-03-04T10:07:48.646Z">
 <meta property="article:author" content="Grace Han">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://hanpanpan200.github.io/images/setup-multiple-git-accounts-by-ssh-config/ssh-working-model.png">
@@ -44,7 +44,7 @@
 <link rel="canonical" href="https://hanpanpan200.github.io/2019/10/14/setup-multiple-git-accounts-by-ssh-config/">
 
 
-<script data-pjax class="page-configurations">
+<script class="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
@@ -104,6 +104,9 @@
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
@@ -124,6 +127,16 @@
 
 
 
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="sitemap fa-fw"></i>站点地图</a></li>
+  </ul>
+</nav>
 
 
 
@@ -152,19 +165,22 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SSH-%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">SSH 工作原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%9A%84-Github-SSH-%E9%85%8D%E7%BD%AE"><span class="nav-number">2.</span> <span class="nav-text">基本的 Github SSH 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-SSH-%E7%A7%98%E9%92%A5"><span class="nav-number">2.1.</span> <span class="nav-text">配置 SSH 秘钥</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E5%A4%9A%E4%B8%AA-github-%E8%B4%A6%E6%88%B7%E7%9A%84-SSH"><span class="nav-number">3.</span> <span class="nav-text">配置多个 github 账户的 SSH</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E5%A4%9A%E4%B8%AA%E8%B4%A6%E6%88%B7%E7%9A%84%E7%A7%81%E9%92%A5%E5%92%8C%E5%85%AC%E9%92%A5%E5%AF%B9%EF%BC%8C%E7%94%A8%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%9A%84-ssh-agent-%E8%BF%9B%E8%A1%8C-key-%E7%9A%84%E5%88%87%E6%8D%A2"><span class="nav-number">3.1.</span> <span class="nav-text">配置多个账户的私钥和公钥对，用客户端的 ssh-agent 进行 key 的切换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E9%85%8D%E7%BD%AE%E5%A4%9A%E5%AF%B9%E7%A7%81%E9%92%A5%E5%92%8C%E5%85%AC%E9%92%A5"><span class="nav-number">3.1.1.</span> <span class="nav-text">1. 配置多对私钥和公钥</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-%E8%AE%BF%E9%97%AE%E4%B8%8D%E5%90%8C-github-%E8%B4%A6%E6%88%B7%E7%9A%84-repo-%E6%97%B6%EF%BC%8C%E6%89%8B%E5%8A%A8%E9%87%8D%E7%BD%AE-SSH-%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%9A%84%E9%BB%98%E8%AE%A4%E7%A7%81%E9%92%A5"><span class="nav-number">3.1.1.1.</span> <span class="nav-text">2. 访问不同 github 账户的 repo 时，手动重置 SSH 客户端的默认私钥</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A9-SSH-%E8%87%AA%E5%8A%A8%E8%AF%86%E5%88%AB%E5%BA%94%E8%AF%A5%E7%94%A8%E5%93%AA%E4%B8%AA%E7%A7%81%E9%92%A5%E5%92%8C%E5%85%AC%E9%92%A5%E8%BF%9B%E8%A1%8C%E5%8C%B9%E9%85%8D"><span class="nav-number">3.2.</span> <span class="nav-text">让 SSH 自动识别应该用哪个私钥和公钥进行匹配</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%88%9B%E5%BB%BA-id-rsa-github-personal-%E7%9A%84%E7%A7%81%E9%92%A5%E5%92%8C%E5%85%AC%E9%92%A5"><span class="nav-number">3.2.1.</span> <span class="nav-text">1. 创建 id_rsa_github_personal 的私钥和公钥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%88%9B%E5%BB%BA-id-rsa-github-company-%E7%9A%84%E7%A7%81%E9%92%A5%E5%92%8C%E5%85%AC%E9%92%A5"><span class="nav-number">3.2.2.</span> <span class="nav-text">2. 创建 id_rsa_github_company 的私钥和公钥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E5%B0%86%E7%A7%81%E9%92%A5%E6%B7%BB%E5%8A%A0%E5%88%B0-ssh-agent-%E5%B9%B6%E4%BF%9D%E5%AD%98%E5%9C%A8-keychain-%E4%B8%AD"><span class="nav-number">3.2.3.</span> <span class="nav-text">3. 将私钥添加到 ssh-agent 并保存在 keychain 中</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E6%9B%B4%E6%96%B0-ssh-config"><span class="nav-number">3.2.4.</span> <span class="nav-text">4. 更新 ssh config</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E6%8B%89%E4%BB%A3%E7%A0%81%E6%97%B6%E9%85%8D%E7%BD%AE%E5%AF%B9%E5%BA%94%E7%9A%84-host"><span class="nav-number">3.2.5.</span> <span class="nav-text">5. 拉代码时配置对应的 host</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%8D%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA-bitbucket-%E8%B4%A6%E6%88%B7%E7%9A%84-SSH-%E9%85%8D%E7%BD%AE"><span class="nav-number">4.</span> <span class="nav-text">再添加一个 bitbucket 账户的 SSH 配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A0%81%E4%BA%91%E7%9A%84-SSH-%EF%BC%9Fgitlab-%E7%9A%84-SSH-%EF%BC%9F"><span class="nav-number">5.</span> <span class="nav-text">码云的 SSH ？gitlab 的 SSH ？</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SSH-%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">SSH 工作原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%9A%84-Github-SSH-%E9%85%8D%E7%BD%AE"><span class="nav-number">2.</span> <span class="nav-text">基本的 Github SSH 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-SSH-%E7%A7%98%E9%92%A5"><span class="nav-number">2.1.</span> <span class="nav-text">配置 SSH 秘钥</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E5%A4%9A%E4%B8%AA-github-%E8%B4%A6%E6%88%B7%E7%9A%84-SSH"><span class="nav-number">3.</span> <span class="nav-text">配置多个 github 账户的 SSH</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E5%A4%9A%E4%B8%AA%E8%B4%A6%E6%88%B7%E7%9A%84%E7%A7%81%E9%92%A5%E5%92%8C%E5%85%AC%E9%92%A5%E5%AF%B9%EF%BC%8C%E7%94%A8%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%9A%84-ssh-agent-%E8%BF%9B%E8%A1%8C-key-%E7%9A%84%E5%88%87%E6%8D%A2"><span class="nav-number">3.1.</span> <span class="nav-text">配置多个账户的私钥和公钥对，用客户端的 ssh-agent 进行 key 的切换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A9-SSH-%E8%87%AA%E5%8A%A8%E8%AF%86%E5%88%AB%E5%BA%94%E8%AF%A5%E7%94%A8%E5%93%AA%E4%B8%AA%E7%A7%81%E9%92%A5%E5%92%8C%E5%85%AC%E9%92%A5%E8%BF%9B%E8%A1%8C%E5%8C%B9%E9%85%8D"><span class="nav-number">3.2.</span> <span class="nav-text">让 SSH 自动识别应该用哪个私钥和公钥进行匹配</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%8D%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA-bitbucket-%E8%B4%A6%E6%88%B7%E7%9A%84-SSH-%E9%85%8D%E7%BD%AE"><span class="nav-number">4.</span> <span class="nav-text">再添加一个 bitbucket 账户的 SSH 配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A0%81%E4%BA%91%E7%9A%84-SSH-%EF%BC%9Fgitlab-%E7%9A%84-SSH-%EF%BC%9F"><span class="nav-number">5.</span> <span class="nav-text">码云的 SSH ？gitlab 的 SSH ？</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Grace Han"
+      src="/images/avatar.jpeg">
   <p class="site-author-name" itemprop="name">Grace Han</p>
   <div class="site-description" itemprop="description">思考，总结，成长，分享，改变</div>
 </div>
 <div class="site-state-wrap site-overview-item animated">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/archives">
+          <a href="/archives/">
+        
           <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">日志</span>
         </a>
@@ -181,6 +197,16 @@
 </div>
 
 
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://codinglife.tech/" title="https:&#x2F;&#x2F;codinglife.tech&#x2F;" rel="noopener" target="_blank">Max Peng</a>
+        </li>
+    </ul>
+  </div>
 
         </div>
       </div>
@@ -196,6 +222,8 @@
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
+
+  <a href="https://github.com/hanpanpan200" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
 
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
@@ -216,7 +244,7 @@
     <link itemprop="mainEntityOfPage" href="https://hanpanpan200.github.io/2019/10/14/setup-multiple-git-accounts-by-ssh-config/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/avatar.jpeg">
       <meta itemprop="name" content="Grace Han">
       <meta itemprop="description" content="思考，总结，成长，分享，改变">
     </span>
@@ -244,7 +272,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-03-04 17:01:42" itemprop="dateModified" datetime="2021-03-04T17:01:42+08:00">2021-03-04</time>
+        <time title="修改时间：2021-03-04 18:07:48" itemprop="dateModified" datetime="2021-03-04T18:07:48+08:00">2021-03-04</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -273,7 +301,7 @@
 <p>SSH(Secure Shell) 是一种加密的网络传输协议，可以在不安全的网络中为网络服务提供安全的传输环境。SSH 以非对称加密实现身份验证，通过C/S(client-server)模式来实现。</p>
 </blockquote>
 <p>具体交互见下图：</p>
-<img src="/images/setup-multiple-git-accounts-by-ssh-config/ssh-working-model.png" alt="Working Model" width="60%" height="400px" />
+<img src="/images/setup-multiple-git-accounts-by-ssh-config/ssh-working-model.png" alt="Working Model" />
 
 <p>在我们上传代码到 github 服务器的过程中，github server 就会作为 SSH server 来接受客户端的请求，并返回 public key（即公钥） 给客户端。而客户端将会进行 public key 和 private key（即私钥）的匹配校验，最终建立连接。</p>
 <p>在明白了 SSH 的原理之后，你可能会有点疑惑，这个公钥和私钥是怎么来的呢？下面我们就来解答这些疑问。</p>
@@ -294,7 +322,7 @@
 </blockquote>
 <h2 id="配置多个-github-账户的-SSH"><a href="#配置多个-github-账户的-SSH" class="headerlink" title="配置多个 github 账户的 SSH"></a>配置多个 github 账户的 SSH</h2><p>在完成了如上的配置之后，你愉快的用起来了 SSH ，代码提交效率大幅提高了，git pull , git push 的时候再也不需要输入密码了。你对当前的效果甚是满意。</p>
 <p>然而过了不久，你切换到了另一个项目/公司，公司给你分配了一个企业邮箱，需要你在工作时使用这个企业邮箱进行代码提交，于是你用公司邮箱创建了另外一个 Github 账户。但是你的 SSH 配置怎么办？于是你想了一下，哦，对，我就把原来的公钥再配置到这个 github 账户里吧！于是你尝试着将本地的 id_rsa.pub 文件中的内容拷贝到公司 github 账户的 SSH settings 里，当你尝试保存的时候得到一个错误消息:</p>
-<img src="/images/setup-multiple-git-accounts-by-ssh-config/error.png" alt="Working Model" width="60%" height="400px" />
+<img src="/images/setup-multiple-git-accounts-by-ssh-config/error.png" />
 
 <p>从原来的个人 github 账户中删除 SSH 配置，然后将 SSH 配置到公司 github 账户中？你觉得不行，你时不时还需要往自己的个人 github 账户中提交代码呢，总不能每次提交都把 SSH 配置挪来挪去吧！</p>
 <p>哦，你想起来，SSH 还提供了一个 SSH Config，可以在这个 config 中定义不同的 host，可以在创建多对公钥和私钥，可以把不同的公钥配置在不同的 github 账户里，然后通过脚本去连接到不同的host，完成不同 git 账户的身份验证。</p>
@@ -312,11 +340,11 @@
 <p>这样，你通过这种半自动化的方式配置好了两个 github 账户的 SSH，在实际使用过程中，勉强够用，但是你经常忘记切换，常常是在拉代码收到错误提示之后，才想起来要手动做这个切换，这确实有点痛苦。你在想，如果拉代码时，SSH 可以自动匹配私钥和公钥该多好？</p>
 <h3 id="让-SSH-自动识别应该用哪个私钥和公钥进行匹配"><a href="#让-SSH-自动识别应该用哪个私钥和公钥进行匹配" class="headerlink" title="让 SSH 自动识别应该用哪个私钥和公钥进行匹配"></a>让 SSH 自动识别应该用哪个私钥和公钥进行匹配</h3><p>本例中，个人 github 仓库的 ssh 地址为：</p>
 <blockquote>
-<p><a href="mailto:&#103;&#x69;&#116;&#x40;&#103;&#105;&#116;&#x68;&#x75;&#x62;&#46;&#99;&#x6f;&#x6d;">&#103;&#x69;&#116;&#x40;&#103;&#105;&#116;&#x68;&#x75;&#x62;&#46;&#99;&#x6f;&#x6d;</a>:personal-username/repo1.git</p>
+<p><a href="mailto:&#x67;&#x69;&#116;&#64;&#x67;&#x69;&#x74;&#104;&#x75;&#98;&#46;&#99;&#x6f;&#109;">&#x67;&#x69;&#116;&#64;&#x67;&#x69;&#x74;&#104;&#x75;&#98;&#46;&#99;&#x6f;&#109;</a>:personal-username/repo1.git</p>
 </blockquote>
 <p>公司 github 仓库的ssh 地址为：</p>
 <blockquote>
-<p><a href="mailto:&#103;&#x69;&#x74;&#64;&#103;&#105;&#116;&#104;&#117;&#x62;&#x2e;&#x63;&#x6f;&#109;">&#103;&#x69;&#x74;&#64;&#103;&#105;&#116;&#104;&#117;&#x62;&#x2e;&#x63;&#x6f;&#109;</a>:company-username/repo2.git</p>
+<p><a href="mailto:&#x67;&#105;&#116;&#x40;&#x67;&#105;&#x74;&#104;&#x75;&#x62;&#46;&#99;&#x6f;&#109;">&#x67;&#105;&#116;&#x40;&#x67;&#105;&#x74;&#104;&#x75;&#x62;&#46;&#99;&#x6f;&#109;</a>:company-username/repo2.git</p>
 </blockquote>
 <p>在以上的 ssh-url 中，<strong>github.com</strong> 是 ssh server 的 host name。当连接这个 ssh url 时，客户端的 ssh-agent 会在本地的 ssh config 中寻找相应的配置。接下来，我们来查看本地的ssh config。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat ~&#x2F;.ssh&#x2F;config</span><br></pre></td></tr></table></figure>
@@ -335,16 +363,16 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Host personal-username.github.com</span><br><span class="line">  HostName github.com</span><br><span class="line">  AddKeysToAgent yes</span><br><span class="line">  UseKeychain yes</span><br><span class="line">  IdentityFile ~&#x2F;.ssh&#x2F;id_rsa_github_personal</span><br><span class="line">Host company-username.github.com</span><br><span class="line">  HostName github.com</span><br><span class="line">  AddKeysToAgent yes</span><br><span class="line">  UseKeychain yes</span><br><span class="line">  IdentityFile ~&#x2F;.ssh&#x2F;id_rsa_github_company</span><br></pre></td></tr></table></figure>
 
 <h4 id="5-拉代码时配置对应的-host"><a href="#5-拉代码时配置对应的-host" class="headerlink" title="5. 拉代码时配置对应的 host"></a>5. 拉代码时配置对应的 host</h4><p>github 默认的 ssh host 名字为 <strong>github.com</strong> ，我们已经在上述的配置中，根据不同的 github 账户，将 <strong>github.com</strong> 这个 host 区分为了 <strong>personal-username.github.com</strong> 和 <strong>company-username.github.com</strong>， 因此，当我们在访问对应仓库时，对应的 ssh host 应当作出对应的修改。</p>
-<p>当使用个人 github 账户的 SSH 认证访问仓库： <a href="mailto:&#x67;&#x69;&#116;&#64;&#103;&#x69;&#x74;&#x68;&#x75;&#x62;&#46;&#99;&#111;&#x6d;">&#x67;&#x69;&#116;&#64;&#103;&#x69;&#x74;&#x68;&#x75;&#x62;&#46;&#99;&#111;&#x6d;</a>:personal-username/ssh-config-demo.git</p>
+<p>当使用个人 github 账户的 SSH 认证访问仓库： <a href="mailto:&#x67;&#105;&#x74;&#x40;&#103;&#x69;&#116;&#x68;&#x75;&#98;&#x2e;&#x63;&#x6f;&#x6d;">&#x67;&#105;&#x74;&#x40;&#103;&#x69;&#116;&#x68;&#x75;&#98;&#x2e;&#x63;&#x6f;&#x6d;</a>:personal-username/ssh-config-demo.git</p>
 <ul>
 <li>如果 repo 已经 clone 到本地，则需要修改 <code>./git/config</code> 中的 <code>remote origin</code> 配置。具体的 diff 如下：</li>
 </ul>
-<img src="/images/setup-multiple-git-accounts-by-ssh-config/git-config.png" alt="Git Config" width="60%" height="400px" />
+<img src="/images/setup-multiple-git-accounts-by-ssh-config/git-config.png" alt="Git Config" />
 
 <ul>
 <li>如果 repo 未 clone 到本地，则需要修改 clone 命令：</li>
 </ul>
-<img src="/images/setup-multiple-git-accounts-by-ssh-config/clone-command.png" alt="Clone Command" width="60%" height="400px" />
+<img src="/images/setup-multiple-git-accounts-by-ssh-config/clone-command.png" alt="Clone Command" />
 
 <p>按照如上进行配置之后，只需要在 clone 代码处注意一下 ssh host 的处理，便可以后顾无忧了！你可以放心的在各个 github 账户间切换自如。</p>
 <h2 id="再添加一个-bitbucket-账户的-SSH-配置"><a href="#再添加一个-bitbucket-账户的-SSH-配置" class="headerlink" title="再添加一个 bitbucket 账户的 SSH 配置"></a>再添加一个 bitbucket 账户的 SSH 配置</h2><p>又有那么一天，你又需要 <a target="_blank" rel="noopener" href="https://bitbucket.org/">bitbucket</a> 了，可能是某个项目需要，也有可能是你的私有仓库需要大于3个的 collaborator，但是无论如何，你的确是，又需要配置 bitbucket 的 SSH 了。不过，你现在已经可以如法炮制了！</p>
@@ -435,7 +463,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">Grace Han</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>
 
     </div>
@@ -443,41 +471,7 @@
 
   
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
-<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script>
-var pjax = new Pjax({
-  selectors: [
-    'head title',
-    '.page-configurations',
-    '.main-inner',
-    '.post-toc-wrap',
-    '.languages',
-    '.pjax'
-  ],
-  analytics: false,
-  cacheBust: false,
-  scrollRestoration: false,
-  scrollTo: !CONFIG.bookmark.enable
-});
-
-document.addEventListener('pjax:success', () => {
-  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
-  NexT.boot.refresh();
-  // Define Motion Sequence & Bootstrap Motion.
-  if (CONFIG.motion.enable) {
-    NexT.motion.integrator
-      .init()
-      .add(NexT.motion.middleWares.subMenu)
-      .add(NexT.motion.middleWares.postList)
-      .bootstrap();
-  }
-  const hasTOC = document.querySelector('.post-toc');
-  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
-  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
-  NexT.utils.updateSidebarPosition();
-});
-</script>
-
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
 
   
 
@@ -490,9 +484,7 @@ document.addEventListener('pjax:success', () => {
 
 
 
-    <div class="pjax">
 
 
-    </div>
 </body>
 </html>
