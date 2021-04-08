@@ -80,3 +80,24 @@ sidebar:
   onmobile: false
   # Click any blank part of the page to close sidebar (only for Muse | Mist).
   dimmer: false
+
+# Analytics
+google_analytics:
+   tracking_id: 268383104
+   only_pageview: false
+
+# addThis
+# AddThis Share. See: https://www.addthis.com
+# Go to https://www.addthis.com/dashboard to customize your tools.
+add_this_id: ra-606ecfc08f5e2c42
+
+# Show Views / Visitors of the website / page with busuanzi.
+# Get more information on http://ibruce.info/2015/04/04/busuanzi
+busuanzi_count:
+  enable: false
+  total_visitors: true
+  total_visitors_icon: fa fa-user
+  total_views: true
+  total_views_icon: fa fa-eye
+  post_views: true
+  post_views_icon: fa fa-eye
