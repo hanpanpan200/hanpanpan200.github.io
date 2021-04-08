@@ -103,3 +103,7 @@ theme: next
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: ''
+
+# Analytics
+google_analytics: 268383104
+add_this_id: ra-606ecfc08f5e2c42
