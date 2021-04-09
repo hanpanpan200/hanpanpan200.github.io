@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://hanpanpan200.github.io/images/setup-multiple-git-accounts-by-ssh-config/git-config.png">
 <meta property="og:image" content="https://hanpanpan200.github.io/images/setup-multiple-git-accounts-by-ssh-config/clone-command.png">
 <meta property="article:published_time" content="2019-10-14T08:22:46.000Z">
-<meta property="article:modified_time" content="2021-04-08T10:03:37.381Z">
+<meta property="article:modified_time" content="2021-04-09T10:01:23.066Z">
 <meta property="article:author" content="Grace Han">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://hanpanpan200.github.io/images/setup-multiple-git-accounts-by-ssh-config/ssh-working-model.png">
@@ -281,7 +281,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-04-08 18:03:37" itemprop="dateModified" datetime="2021-04-08T18:03:37+08:00">2021-04-08</time>
+        <time title="修改时间：2021-04-09 18:01:23" itemprop="dateModified" datetime="2021-04-09T18:01:23+08:00">2021-04-09</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -349,11 +349,11 @@
 <p>这样，你通过这种半自动化的方式配置好了两个 github 账户的 SSH，在实际使用过程中，勉强够用，但是你经常忘记切换，常常是在拉代码收到错误提示之后，才想起来要手动做这个切换，这确实有点痛苦。你在想，如果拉代码时，SSH 可以自动匹配私钥和公钥该多好？</p>
 <h3 id="让-SSH-自动识别应该用哪个私钥和公钥进行匹配"><a href="#让-SSH-自动识别应该用哪个私钥和公钥进行匹配" class="headerlink" title="让 SSH 自动识别应该用哪个私钥和公钥进行匹配"></a>让 SSH 自动识别应该用哪个私钥和公钥进行匹配</h3><p>本例中，个人 github 仓库的 ssh 地址为：</p>
 <blockquote>
-<p><a href="mailto:&#x67;&#x69;&#116;&#x40;&#103;&#105;&#x74;&#104;&#x75;&#98;&#46;&#99;&#111;&#x6d;">&#x67;&#x69;&#116;&#x40;&#103;&#105;&#x74;&#104;&#x75;&#98;&#46;&#99;&#111;&#x6d;</a>:personal-username/repo1.git</p>
+<p><a href="mailto:&#x67;&#x69;&#x74;&#x40;&#x67;&#x69;&#x74;&#x68;&#x75;&#98;&#46;&#99;&#x6f;&#x6d;">&#x67;&#x69;&#x74;&#x40;&#x67;&#x69;&#x74;&#x68;&#x75;&#98;&#46;&#99;&#x6f;&#x6d;</a>:personal-username/repo1.git</p>
 </blockquote>
 <p>公司 github 仓库的ssh 地址为：</p>
 <blockquote>
-<p><a href="mailto:&#x67;&#105;&#x74;&#64;&#103;&#105;&#116;&#104;&#117;&#98;&#x2e;&#99;&#111;&#x6d;">&#x67;&#105;&#x74;&#64;&#103;&#105;&#116;&#104;&#117;&#98;&#x2e;&#99;&#111;&#x6d;</a>:company-username/repo2.git</p>
+<p><a href="mailto:&#x67;&#105;&#x74;&#x40;&#103;&#105;&#116;&#104;&#x75;&#x62;&#x2e;&#99;&#x6f;&#x6d;">&#x67;&#105;&#x74;&#x40;&#103;&#105;&#116;&#104;&#x75;&#x62;&#x2e;&#99;&#x6f;&#x6d;</a>:company-username/repo2.git</p>
 </blockquote>
 <p>在以上的 ssh-url 中，<strong>github.com</strong> 是 ssh server 的 host name。当连接这个 ssh url 时，客户端的 ssh-agent 会在本地的 ssh config 中寻找相应的配置。接下来，我们来查看本地的ssh config。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat ~&#x2F;.ssh&#x2F;config</span><br></pre></td></tr></table></figure>
@@ -372,7 +372,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Host personal-username.github.com</span><br><span class="line">  HostName github.com</span><br><span class="line">  AddKeysToAgent yes</span><br><span class="line">  UseKeychain yes</span><br><span class="line">  IdentityFile ~&#x2F;.ssh&#x2F;id_rsa_github_personal</span><br><span class="line">Host company-username.github.com</span><br><span class="line">  HostName github.com</span><br><span class="line">  AddKeysToAgent yes</span><br><span class="line">  UseKeychain yes</span><br><span class="line">  IdentityFile ~&#x2F;.ssh&#x2F;id_rsa_github_company</span><br></pre></td></tr></table></figure>
 
 <h4 id="5-拉代码时配置对应的-host"><a href="#5-拉代码时配置对应的-host" class="headerlink" title="5. 拉代码时配置对应的 host"></a>5. 拉代码时配置对应的 host</h4><p>github 默认的 ssh host 名字为 <strong>github.com</strong> ，我们已经在上述的配置中，根据不同的 github 账户，将 <strong>github.com</strong> 这个 host 区分为了 <strong>personal-username.github.com</strong> 和 <strong>company-username.github.com</strong>， 因此，当我们在访问对应仓库时，对应的 ssh host 应当作出对应的修改。</p>
-<p>当使用个人 github 账户的 SSH 认证访问仓库： <a href="mailto:&#103;&#105;&#116;&#x40;&#103;&#105;&#116;&#x68;&#x75;&#x62;&#46;&#99;&#x6f;&#x6d;">&#103;&#105;&#116;&#x40;&#103;&#105;&#116;&#x68;&#x75;&#x62;&#46;&#99;&#x6f;&#x6d;</a>:personal-username/ssh-config-demo.git</p>
+<p>当使用个人 github 账户的 SSH 认证访问仓库： <a href="mailto:&#103;&#x69;&#x74;&#64;&#x67;&#105;&#x74;&#x68;&#117;&#x62;&#x2e;&#99;&#111;&#109;">&#103;&#x69;&#x74;&#64;&#x67;&#105;&#x74;&#x68;&#117;&#x62;&#x2e;&#99;&#111;&#109;</a>:personal-username/ssh-config-demo.git</p>
 <ul>
 <li>如果 repo 已经 clone 到本地，则需要修改 <code>./git/config</code> 中的 <code>remote origin</code> 配置。具体的 diff 如下：</li>
 </ul>
