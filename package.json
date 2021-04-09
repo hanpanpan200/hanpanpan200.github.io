@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "hexo generate",
+    "build": "hexo generate && ./shell/copy_baidu_verifier.sh",
     "clean": "hexo clean",
-    "deploy": "hexo deploy && ./shell/copy_baidu_verifier.sh",
+    "deploy": "hexo deploy",
     "server": "hexo server"
   },
   "hexo": {
